@@ -31,8 +31,10 @@ const Header = () => {
                             <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link href="#features">Features</Nav.Link>
                             <Nav.Link href="/posts">Posts</Nav.Link>
-                            {!!currentUser && <Nav.Link href="/post-form">List your item</Nav.Link>}
-                            {!!currentUser && <Nav.Link href="/your-listing">Your Posts</Nav.Link>}
+                            {!!currentUser && <>
+                                <Nav.Link href="/post-form">List your item</Nav.Link>
+                                <Nav.Link href="/your-listing">Your Posts</Nav.Link>
+                            </>}
 
                         </Nav>
                         {!!currentUser ?

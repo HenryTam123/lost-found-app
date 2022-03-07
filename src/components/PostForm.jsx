@@ -118,7 +118,7 @@ const PostForm = () => {
     return (
         <>
             <h4 className='my-4 py-2 custom-label'>List your lost item on our website</h4>
-            {!!currentUser ? <div className='d-flex flex-wrap'>
+            {!!currentUser ? <div className='d-flex flex-wrap mb-4'>
 
                 <Card className=" shadow-sm border m-2" >
                     <Card.Body>
@@ -127,7 +127,6 @@ const PostForm = () => {
                                 <Form.Label>Photos of your Item <span className="text-muted">&#40;up to 5 photos&#41;</span></Form.Label>
                                 <Form.Control type='file' multiple onChange={(e) => handleChange(e)}></Form.Control>
                             </Form.Group>
-                            {/* <Button className="mt-3" onClick={handleUploadImage}>Upload</Button> */}
                         </Form>
                         {!!urls && urls.map(url => {
                             return (
