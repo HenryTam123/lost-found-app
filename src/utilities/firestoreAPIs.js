@@ -1,16 +1,79 @@
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+    collection, doc, addDoc, getDoc, getDocs, setDoc, deleteDoc, query,
+    where, orderBy, startAt, endAt, FieldPath, documentId
+} from "firebase/firestore";
 import { db } from '../firebase-config';
 
-export const getPosts = async () => {
-    const res = await getDocs(collection(db, "posts"));
+export const getPosts = async (filters = {}) => {
+
+    console.log(filters)
+    let q = query(collection(db, "posts"),
+        orderBy("createdAt", filters.sortBy),
+    );
+
+    if (filters.category !== "All" && filters.status === "All") {
+        q = query(collection(db, "posts"),
+            where('category', "==", filters.category),
+            orderBy("createdAt", filters.sortBy),
+            orderBy("itemName")
+        )
+    }
+    else if (filters.category === "All" && filters.status !== "All") {
+        q = query(collection(db, "posts"),
+            where("status", "==", filters.status),
+            orderBy("createdAt", filters.sortBy),
+            orderBy("itemName")
+        )
+    } else if (filters.category !== "All" && filters.status !== "All") {
+        q = query(collection(db, "posts"),
+            where('category', "==", filters.category),
+            where("status", "==", filters.status),
+            orderBy("createdAt", filters.sortBy),
+            orderBy("itemName"),
+            startAt(filters.textQuery),
+            endAt(filters.textQuery + "~")
+        )
+    }
+
+    const res = await getDocs(q);
     let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    console.log(data)
     return data
+
+}
+
+export const getUserPosts = async (email) => {
+
+    try {
+        let q = query(collection(db, "posts"), where("creatorEmail", "==", email));
+
+        const res = await getDocs(q);
+        let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        return data
+    } catch (err) {
+        console.error("Error getting document: ", err);
+    }
+
+}
+
+export const getOnePost = async (postId) => {
+    try {
+        let q = query(collection(db, "posts"), where(documentId(), "==", postId));
+
+        const res = await getDocs(q);
+        let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        console.log(data)
+
+        return data
+
+    } catch (err) {
+        console.error("Error getting document: ", err);
+    }
+
 }
 
 export const uploadImages = async (files) => {
     if (!files) return;
-
-
 }
 
 export const addPost = async (newPost = {}) => {
@@ -18,22 +81,38 @@ export const addPost = async (newPost = {}) => {
         console.log(newPost)
         const docRef = await addDoc(collection(db, "posts"), {
             createdAt: new Date().getTime(),
-            isFound: false,
+            // status can be ["found", "not_found"]
+            status: "not_found",
             ...newPost,
-            //   creator: newPost.creator,
-            //   itemName: newPost.itemName,
-            //   description: newPost.description,
-            //   category: newPost.category,
-            //   contact: {
-            //       phoneNumber: ,
-            //       email:
-            //   }
         });
         console.log("Document written with ID: ", docRef.id);
 
         return docRef
     } catch (e) {
         console.error("Error adding document: ", e);
+    }
+
+}
+
+
+export const updatePost = async (postId, updatedPost) => {
+    try {
+        console.log(postId)
+        await setDoc(doc(db, "posts", postId), updatedPost, { merge: true });
+
+    } catch (err) {
+        console.error("Error updating document: ", err);
+
+    }
+}
+
+export const deletePost = async (postId) => {
+    try {
+        const res = await deleteDoc(doc(db, "posts", postId));
+        console.log(res)
+    } catch (err) {
+        console.error("Error deleting document: ", err);
+
     }
 
 }

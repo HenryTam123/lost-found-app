@@ -10,21 +10,13 @@ import Login from './components/Login'
 import Header from './components/Header';
 import Home from './components/Home'
 import Footer from './components/Footer';
+import Post from './components/Post'
 import Posts from './components/Posts';
 import PostForm from './components/PostForm';
+import OwnListing from './components/OwnListing';
+import EditForm from './components/EditForm';
 
 function App() {
-  const [users, setUsers] = useState([]);
-  // const usersCollectionRef = collection(db, 'users');
-
-  useEffect(() => {
-    // const getUsers = async () => {
-    //   const data = await getDocs(usersCollectionRef);
-    //   setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    // }
-
-    // getUsers();
-  }, [])
 
   return (
     <div className="App">
@@ -32,13 +24,16 @@ function App() {
         <Router>
           <AuthProvider>
             <Header />
-            <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "90vh" }}>
+            <Container className="mt-4" >
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts" element={<Posts />} />
+                <Route path="/post/:pid" element={<Post />} />
                 <Route path="/post-form" element={<PostForm />} />
+                <Route path="/your-listing" element={<OwnListing />} />
+                <Route path="/edit-form/:pid" element={<EditForm />} />
               </Routes>
             </Container >
             <Footer />

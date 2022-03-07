@@ -7,7 +7,6 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 const Header = () => {
     const [error, setError] = useState("")
     const { currentUser, logout } = useAuth();
-    console.log(currentUser)
     const navigate = useNavigate();
     const handleLogout = async (e) => {
         e.preventDefault()
@@ -22,7 +21,7 @@ const Header = () => {
 
     return (
         <>
-            <Navbar bg="white" variant="light" className='shadow-sm' expand="lg">
+            <Navbar bg="white" variant="light" className='shadow-sm' expand="md">
                 <Container>
                     <Navbar.Brand href="/">L&amp;F</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -33,6 +32,7 @@ const Header = () => {
                             <Nav.Link href="#features">Features</Nav.Link>
                             <Nav.Link href="/posts">Posts</Nav.Link>
                             {!!currentUser && <Nav.Link href="/post-form">List your item</Nav.Link>}
+                            {!!currentUser && <Nav.Link href="/your-listing">Your Posts</Nav.Link>}
 
                         </Nav>
                         {!!currentUser ?

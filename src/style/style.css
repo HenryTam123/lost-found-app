@@ -7,3 +7,13 @@
 .custom-primary-color{
     color: rgb(173,99,255) !important;
 }
+
+
+.custom-label{
+    border-left: 4px solid black;
+    padding-left: 20px;
+}
+
+.custom-hover-effect:hover{
+   box-shadow: 0 0.5rem 1rem rgba(0,0,0,.35)!important
+}
