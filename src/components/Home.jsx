@@ -14,7 +14,7 @@ const Home = () => {
 
     return (
         <>
-            <Container>
+            <Container style={{ minHeight: "70vh", marginTop: "10vh" }} >
                 <Row>
                     <Col xs={12} md={4} lg={4} className="my-auto">
                         <div className='h1 mb-4' >
@@ -26,7 +26,6 @@ const Home = () => {
                         <Image src={landingPicture} fluid={true} />
                     </Col>
                 </Row>
-
             </Container>
         </>
     )

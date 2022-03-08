@@ -5,14 +5,14 @@ import { getStorage } from "firebase/storage";
 
 
 const app = initializeApp({
-    apiKey: "AIzaSyDYduFQd6bwFg4Ocv1fa6bm8eeKWDzwYss",
-    authDomain: "project-cae7c.firebaseapp.com",
-    projectId: "project-cae7c",
-    databaseURL: "gs://project-cae7c.appspot.com/",
-    storageBucket: "project-cae7c.appspot.com",
-    messagingSenderId: "782972508890",
-    appId: "1:782972508890:web:0c9046590357c7a54d23e3",
-    measurementId: "G-7K8EF6DN6L"
+    apiKey: process.env.REACT_APP_FIREBASE_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSENGER_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 })
 
 export const auth = getAuth(app);

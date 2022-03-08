@@ -21,7 +21,7 @@ const Header = () => {
 
     return (
         <>
-            <Navbar bg="white" variant="light" className='shadow-sm' expand="md">
+            <Navbar bg="white" variant="light" className='w-100 mt-0 shadow-sm position-fixed' style={{ top: "0px", zIndex: 1000 }} expand="md">
                 <Container>
                     <Navbar.Brand href="/">L&amp;F</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -29,7 +29,7 @@ const Header = () => {
 
                         <Nav className="me-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="#features">Features</Nav.Link>
+                            {/* <Nav.Link href="#features">Features</Nav.Link> */}
                             <Nav.Link href="/posts">Posts</Nav.Link>
                             {!!currentUser && <>
                                 <Nav.Link href="/post-form">List your item</Nav.Link>
@@ -50,7 +50,7 @@ const Header = () => {
                             </Nav>
                             :
                             <Nav className="ml-auto">
-                                <Nav.Link href="./signup">Sign Up</Nav.Link>
+                                {/* <Nav.Link href="./signup">Sign Up</Nav.Link> */}
 
                                 <Nav.Link href="./login">Log In</Nav.Link>
                             </Nav>

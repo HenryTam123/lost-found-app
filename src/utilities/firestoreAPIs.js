@@ -1,43 +1,44 @@
 import {
     collection, doc, addDoc, getDoc, getDocs, setDoc, deleteDoc, query,
-    where, orderBy, startAt, endAt, FieldPath, documentId
+    where, orderBy, startAt, endAt, FieldPath, documentId, limit
 } from "firebase/firestore";
 import { db } from '../firebase-config';
 
 export const getPosts = async (filters = {}) => {
 
-    console.log(filters)
-    let q = query(collection(db, "posts"),
+    let pageSize = 4;
+
+    let q1 = query(collection(db, "posts"),
         orderBy("createdAt", filters.sortBy),
     );
 
     if (filters.category !== "All" && filters.status === "All") {
-        q = query(collection(db, "posts"),
+        q1 = query(collection(db, "posts"),
             where('category', "==", filters.category),
-            orderBy("createdAt", filters.sortBy),
-            orderBy("itemName")
+            orderBy("createdAt", filters.sortBy)
         )
+
     }
     else if (filters.category === "All" && filters.status !== "All") {
-        q = query(collection(db, "posts"),
+        q1 = query(collection(db, "posts"),
             where("status", "==", filters.status),
-            orderBy("createdAt", filters.sortBy),
-            orderBy("itemName")
+            orderBy("createdAt", filters.sortBy)
+
         )
+
     } else if (filters.category !== "All" && filters.status !== "All") {
-        q = query(collection(db, "posts"),
+        q1 = query(collection(db, "posts"),
             where('category', "==", filters.category),
             where("status", "==", filters.status),
-            orderBy("createdAt", filters.sortBy),
-            orderBy("itemName"),
-            startAt(filters.textQuery),
-            endAt(filters.textQuery + "~")
+            orderBy("createdAt", filters.sortBy)
+
         )
+
     }
 
-    const res = await getDocs(q);
-    let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    console.log(data)
+    const res = await getDocs(q1);
+    const totalDocs = res.size;
+    let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id, totalDocs: totalDocs }));
     return data
 
 }

@@ -37,15 +37,15 @@ const Post = () => {
 
     }, [])
     return (
-        <>
-            <Container className='container d-flex flex-wrap my-3 justify-content-center'>
-                {isLoading ? <div className='d-flex justify-content-center' style={{ minHeight: "70vh" }}>
+        <div style={{ marginTop: "10vh" }}>
+            <Container style={{ marginTop: "10vh" }} className='container d-flex flex-wrap my-3 justify-content-center mx-0'>
+                {isLoading ? <div className='d-flex justify-content-center p-0' style={{ minHeight: "70vh" }}>
                     <Spinner animation="border" className="my-auto" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 </div> : <>
 
-                    <Row className="w-100">
+                    <Row className="w-100 m-0">
                         {post.length !== 0 &&
                             <>
                                 <Col lg={12}>
@@ -56,7 +56,7 @@ const Post = () => {
                                                     <Carousel.Item>
                                                         <img
                                                             className="d-block w-100"
-                                                            style={{ objectFit: "cover", height: "400px" }}
+                                                            style={{ objectFit: "cover", height: "500px" }}
                                                             src={url}
                                                             alt={`slide ${i + 1}`}
                                                         />
@@ -115,7 +115,7 @@ const Post = () => {
             </Container>
 
 
-        </>
+        </div>
     )
 }
 

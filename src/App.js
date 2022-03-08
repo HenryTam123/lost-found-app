@@ -24,10 +24,10 @@ function App() {
         <Router>
           <AuthProvider>
             <Header />
-            <Container className="mt-4" >
+            <Container  >
               <Routes>
                 <Route exact path="/" element={<Home />} />
-                <Route path="/signup" element={<SignUp />} />
+                {/* <Route path="/signup" element={<SignUp />} /> */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/post/:pid" element={<Post />} />

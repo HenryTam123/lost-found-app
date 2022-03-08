@@ -116,8 +116,8 @@ const PostForm = () => {
 
 
     return (
-        <>
-            <h4 className='my-4 py-2 custom-label'>List your lost item on our website</h4>
+        <div style={{ marginTop: "10vh" }}>
+            <h4 className='py-3 custom-label' >List your lost item on our website</h4>
             {!!currentUser ? <div className='d-flex flex-wrap mb-4'>
 
                 <Card className=" shadow-sm border m-2" >
@@ -192,7 +192,7 @@ const PostForm = () => {
                 </Card>
             </div> : <Button onClick={navigate('/login')}>Login</Button>}
 
-        </>
+        </div>
 
     )
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
@@ -9,10 +9,16 @@ import facebookLoginIcon from '../images/facebook-login-icon.jpg'
 export default function Login() {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const { login, signInWithGoogle, signInWithFacebook } = useAuth()
+    const { login, signInWithGoogle, signInWithFacebook, currentUser } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!!currentUser) {
+            navigate('/posts')
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -55,11 +61,12 @@ export default function Login() {
     }
 
     return (
-        <div className="w-100 me-auto">
-            <Card className="mx-auto" style={{ maxWidth: "600px" }}>
+        <div className="w-100" style={{ minHeight: "90vh", marginTop: "10vh" }}>
+
+            <Card className="mx-auto shadow" style={{ maxWidth: "600px" }}>
                 <Card.Body>
                     <h2 className="text-center mb-4">Log In</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
+                    {/* {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="email" className='mt-3'>
                             <Form.Label>Email</Form.Label>
@@ -78,7 +85,7 @@ export default function Login() {
                     </div>
                     <div className="w-100 text-center mt-3">
                         - OR -
-                    </div>
+                    </div> */}
                     <Button disabled={loading} onClick={handleGoogleLogin} variant="light" style={{ backgroundColor: "white" }} className="w-100 mt-3 p-2 shadow-sm">
                         <img src={googleLoginIcon} style={{ height: "30px", marginRight: "10px" }} />
 
@@ -90,9 +97,9 @@ export default function Login() {
                     </Button>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center mt-2 mx-auto" style={{ maxWidth: "600px" }}>
+            {/* <div className="w-100 text-center mt-2 mx-auto" style={{ maxWidth: "600px" }}>
                 Need an account? <Link to="/signup">Sign Up</Link>
-            </div>
+            </div> */}
         </div>
     )
 }

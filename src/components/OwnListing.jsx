@@ -20,7 +20,7 @@ const OwnListing = () => {
 
     }, [])
     return (
-        <div>
+        <div style={{ marginTop: "10vh" }}>
             <Container>
                 <h4 className='text-start custom-label py-2'>Your Posts</h4>
 
@@ -35,7 +35,7 @@ const OwnListing = () => {
 
                     <Row className="w-100">
                         {
-                            !!posts ? posts.map((post, i) => {
+                            posts.length !== 0 ? posts.map((post, i) => {
                                 return (
                                     <Col lg={3} md={4} sm={6} key={i}>
                                         <Card className="shadow cursor-pointer custom-hover-effect w-100 my-3" key={i}>
@@ -83,7 +83,7 @@ const OwnListing = () => {
                                 )
 
                             }) :
-                                <div>You do not have any listing yet</div>
+                                <div style={{ minHeight: "80vh" }}>You do not have any listing yet</div>
                         }
                     </Row>
                 </>}
