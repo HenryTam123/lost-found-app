@@ -19,7 +19,7 @@ const EditForm = () => {
     const [isEmailSelected, setIsEmailSelected] = useState(false);
     const [categorySelected, setCateogrySelected] = useState("Accessory");
     const [statusSelected, setStatusSelected] = useState(null);
-
+    const [reward, setReward] = useState(0)
     const [description, setDescription] = useState('');
     const [email, setEmail] = useState(null);
     const [phone, setPhone] = useState(null);
@@ -57,6 +57,7 @@ const EditForm = () => {
         setDescription(post.description);
         setCateogrySelected(post.category);
         setStatusSelected(post.status);
+        setReward(post.reward || 0)
         setDate(new Date(post.lost_date.seconds * 1000));
         if (!!post.contact.phone) setIsPhoneSelected(true);
         if (!!post.contact.email) setIsEmailSelected(true);
@@ -138,6 +139,7 @@ const EditForm = () => {
             category: categorySelected,
             lost_date: date,
             updatedAt: new Date().getTime(),
+            reward: reward
         }
 
         let res = await updatePost(currentPost.id, newPost)
@@ -147,7 +149,7 @@ const EditForm = () => {
 
     return (
 
-        <div style={{ marginTop: "10vh" }}>
+        <div style={{ paddingTop: "75px" }}>
             <Container className="my-4" >
                 {isLoading ? <div className='d-flex justify-content-center' style={{ minHeight: "70vh" }}>
                     <Spinner animation="border" className="my-auto" role="status">
@@ -160,7 +162,7 @@ const EditForm = () => {
 
                         {!!currentUser && currentUser.email === currentPost.creatorEmail ? <div className='d-flex flex-wrap'>
 
-                            <Card className=" shadow-sm border m-2" >
+                            <Card className=" shadow border m-2" >
                                 <Card.Body>
                                     <Form className='mb-2'>
                                         <Form.Group id='image' >
@@ -176,7 +178,7 @@ const EditForm = () => {
                                 </Card.Body>
                             </Card>
 
-                            <Card className=" shadow-sm border w-100 m-2" style={{ flex: "1", minWidth: "200px" }}>
+                            <Card className=" shadow border w-100 m-2" style={{ flex: "1", minWidth: "200px" }}>
                                 <Card.Body>
                                     <Form onSubmit={handleUpdatePost}>
                                         <Form.Group id='item_name' className='mb-2' >
@@ -224,6 +226,12 @@ const EditForm = () => {
 
                                             </Form.Select>
                                         </Form.Group>
+                                        <Form.Group id='item_name' className='mb-2' >
+                                            <Form.Label>Reward <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                                            <div class="d-flex">
+                                                <Form.Control type="text" style={{ marginRight: "5px", width: "60px" }} value={"HKD"} disabled></Form.Control>
+                                                <Form.Control type='text' placeholder='0' value={reward} onChange={(e) => setReward(e.target.value)} required></Form.Control>
+                                            </div>                                        </Form.Group>
                                         <Form.Group id='item_status' className='mb-2'>
                                             <Form.Label>Status</Form.Label>
                                             <Form.Select aria-label="Default select example" value={statusSelected} onChange={e => setStatusSelected(e.target.value)}>

@@ -61,7 +61,7 @@ export default function Login() {
     }
 
     return (
-        <div className="w-100" style={{ minHeight: "90vh", marginTop: "10vh" }}>
+        <div className="w-100" style={{ minHeight: "90vh", paddingTop: "75px" }}>
 
             <Card className="mx-auto shadow" style={{ maxWidth: "600px" }}>
                 <Card.Body>

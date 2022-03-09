@@ -20,7 +20,7 @@ const OwnListing = () => {
 
     }, [])
     return (
-        <div style={{ marginTop: "10vh" }}>
+        <div style={{ paddingTop: "75px" }}>
             <Container>
                 <h4 className='text-start custom-label py-2'>Your Posts</h4>
 
@@ -58,7 +58,9 @@ const OwnListing = () => {
                                                 <Card.Title>{post.itemName}</Card.Title>
                                                 <Card.Text>
                                                     <Badge style={{ marginRight: "5px" }} bg="secondary">{post.category}</Badge>
-                                                    <Badge bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                    <Badge style={{ marginRight: "5px" }} bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                    <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
+
                                                 </Card.Text>
 
                                                 <Card.Text>Description: {post.description}</Card.Text>
@@ -72,7 +74,7 @@ const OwnListing = () => {
                                             <div>Email: {post.contact.email}</div> */}
 
                                             </Card.Body>
-                                            <Card.Footer>
+                                            <Card.Footer style={{ backgroundColor: "white" }}>
                                                 <Card.Text>
                                                     Posted by {post.creator}
                                                     <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>

@@ -37,7 +37,7 @@ const Post = () => {
 
     }, [])
     return (
-        <div style={{ marginTop: "10vh" }}>
+        <div style={{ paddingTop: "75px" }}>
             <Container style={{ marginTop: "10vh" }} className='container d-flex flex-wrap my-3 justify-content-center mx-0'>
                 {isLoading ? <div className='d-flex justify-content-center p-0' style={{ minHeight: "70vh" }}>
                     <Spinner animation="border" className="my-auto" role="status">
@@ -70,7 +70,9 @@ const Post = () => {
                                             <Card.Title>{post[0].itemName}</Card.Title>
                                             <Card.Text>
                                                 <Badge style={{ marginRight: "5px" }} bg="secondary">{post[0].category}</Badge>
-                                                <Badge bg="secondary">{post[0].status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                <Badge style={{ marginRight: "5px" }} bg="secondary">{post[0].status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post[0].reward || 0}</Badge>
+
                                             </Card.Text>
 
                                             <Card.Title>Description</Card.Title>
@@ -84,7 +86,7 @@ const Post = () => {
                                                 Email: {post[0].contact.email}
                                             </Card.Text>
                                         </Card.Body>
-                                        <Card.Footer className='d-flex justify-content-between'>
+                                        <Card.Footer className='d-flex justify-content-between' style={{ backgroundColor: "white" }}>
                                             <Card.Text style={{ marginTop: "1rem" }}>
                                                 <div>Posted by {post[0].creator}</div>
                                                 <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post[0].createdAt}</Moment> ago

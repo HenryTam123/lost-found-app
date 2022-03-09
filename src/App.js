@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className='w-100'>
+      <div className='w-100' style={{ backgroundColor: "#f6f6f6" }}>
         <Router>
           <AuthProvider>
             <Header />

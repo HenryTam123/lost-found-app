@@ -43,8 +43,9 @@ const Posts = () => {
         const data = await getPosts(filters);
         setIsLoading(false)
         setPosts(data)
-
+        setTotalDocs(data[0].totalDocs)
     }
+
 
     let pageItems = [];
 
@@ -68,7 +69,7 @@ const Posts = () => {
     }, [])
 
     return (
-        <div style={{ marginTop: "10vh" }}>
+        <div style={{ paddingTop: "75px" }}>
             <Container>
                 <h4 className=' py-2 custom-label'>Posts</h4>
             </Container>
@@ -76,7 +77,7 @@ const Posts = () => {
 
                 <Row className="w-100">
                     <Accordion className=" accordion" >
-                        <Accordion.Item eventKey="0">
+                        <Accordion.Item eventKey="0" className="shadow-sm">
                             <Accordion.Header>Filters</Accordion.Header>
                             <Accordion.Body>
                                 <Form className='mb-2'>
@@ -162,7 +163,9 @@ const Posts = () => {
                                                     <Card.Title>{post.itemName}</Card.Title>
                                                     <Card.Text>
                                                         <Badge style={{ marginRight: "5px" }} bg="secondary">{post.category}</Badge>
-                                                        <Badge bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                        <Badge style={{ marginRight: "5px" }} bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                        <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
+
                                                     </Card.Text>
 
                                                     <Card.Text>Description: {post.description}</Card.Text>                                                {post.lost_date &&
@@ -170,7 +173,7 @@ const Posts = () => {
 
                                                     }
                                                 </Card.Body>
-                                                <Card.Footer>
+                                                <Card.Footer style={{ backgroundColor: "white" }}>
                                                     <Card.Text>
                                                         Posted by {post.creator}
                                                         <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>

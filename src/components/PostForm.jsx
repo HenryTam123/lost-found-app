@@ -19,6 +19,7 @@ const PostForm = () => {
     const itemNameRef = useRef();
     const emailRef = useRef();
     const phoneRef = useRef();
+    const rewardRef = useRef();
     const descriptionRef = useRef();
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(false);
@@ -107,6 +108,7 @@ const PostForm = () => {
             },
             category: categorySelected,
             lost_date: date,
+            reward: !!rewardRef.current ? rewardRef.current.value : null
         }
 
         let res = await addPost(newPost)
@@ -116,11 +118,11 @@ const PostForm = () => {
 
 
     return (
-        <div style={{ marginTop: "10vh" }}>
+        <div style={{ paddingTop: "75px" }}>
             <h4 className='py-3 custom-label' >List your lost item on our website</h4>
             {!!currentUser ? <div className='d-flex flex-wrap mb-4'>
 
-                <Card className=" shadow-sm border m-2" >
+                <Card className=" shadow border m-2" >
                     <Card.Body>
                         <Form className='mb-2'>
                             <Form.Group id='image' >
@@ -136,7 +138,7 @@ const PostForm = () => {
                     </Card.Body>
                 </Card>
 
-                <Card className=" shadow-sm border w-100 m-2" style={{ flex: "1", minWidth: "200px" }}>
+                <Card className=" shadow border w-100 m-2" style={{ flex: "1", minWidth: "200px" }}>
                     <Card.Body>
                         <Form onSubmit={handleCreatePost}>
                             <Form.Group id='item_name' className='mb-2' >
@@ -171,7 +173,7 @@ const PostForm = () => {
                             </Form.Group>
 
                             <Form.Group id='item_category' className='mb-2'>
-                                <Form.Label>Category <span className="text-muted">&#40;optional&#41;</span></Form.Label>
+                                <Form.Label>Category <span className="text-muted">&#40;required&#41;</span></Form.Label>
                                 <Form.Select aria-label="Default select example" value={categorySelected} onChange={e => setCateogrySelected(e.target.value)}>
                                     <option disabled>Select category here</option>
 
@@ -183,6 +185,13 @@ const PostForm = () => {
                                     })}
 
                                 </Form.Select>
+                            </Form.Group>
+                            <Form.Group id='item_reward' className='mb-2'>
+                                <Form.Label>Reward<span className="text-muted"> &#40;required&#41;</span></Form.Label>
+                                <div class="d-flex">
+                                    <Form.Control type="text" style={{ marginRight: "5px", width: "60px" }} value={"HKD"} disabled></Form.Control>
+                                    <Form.Control type='text' placeholder='0' ref={rewardRef} required></Form.Control>
+                                </div>
                             </Form.Group>
                             <Button type="submit" disabled={loading} className='w-100 mt-4 cursor-pointer'>Post</Button>
 
