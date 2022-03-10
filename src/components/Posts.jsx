@@ -50,7 +50,7 @@ const Posts = () => {
     let pageItems = [];
 
     for (let i = 1; i <= (totalDocs / postPerPage) + 1; i++) {
-        console.log(totalDocs)
+
         pageItems.push(
             <Pagination.Item value={i} active={currentPage === i} onClick={() => setCurrentPage(i)}>
                 {i}
@@ -61,7 +61,6 @@ const Posts = () => {
     useEffect(async () => {
         setIsLoading(true)
         const data = await getPosts(filters);
-        console.log(data)
         setPosts(data)
         setTotalDocs(data[0].totalDocs)
         setIsLoading(false)
@@ -175,7 +174,11 @@ const Posts = () => {
                                                 </Card.Body>
                                                 <Card.Footer style={{ backgroundColor: "white" }}>
                                                     <Card.Text>
-                                                        Posted by {post.creator}
+                                                        Posted by
+                                                        <span style={{ marginLeft: "8px" }}>
+                                                            <img className='custom-personal-icon' src={post.creatorPhoto} />
+                                                            {post.creator}
+                                                        </span>
                                                         <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>
                                                     </Card.Text>
                                                 </Card.Footer>

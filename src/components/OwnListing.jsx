@@ -15,6 +15,7 @@ const OwnListing = () => {
         setIsLoading(true)
         const data = await getUserPosts(currentUser.email);
         console.log(data)
+        console.log(currentUser)
         setPosts(data)
         setIsLoading(false)
 
@@ -42,7 +43,7 @@ const OwnListing = () => {
                                             {post.imageUrls.length > 0 ?
                                                 <Carousel variant="dark" interval={null}>
                                                     {post.imageUrls.map((url, i) => (
-                                                        <Carousel.Item>
+                                                        <Carousel.Item key={i}>
                                                             <img
                                                                 className="d-block w-100"
                                                                 style={{ objectFit: "cover", height: "200px" }}

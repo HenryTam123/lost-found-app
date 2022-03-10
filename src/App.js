@@ -15,6 +15,7 @@ import Posts from './components/Posts';
 import PostForm from './components/PostForm';
 import OwnListing from './components/OwnListing';
 import EditForm from './components/EditForm';
+import Chatroom from './components/Chatroom'
 
 function App() {
 
@@ -31,9 +32,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/post/:pid" element={<Post />} />
-                <Route path="/post-form" element={<PostForm />} />
                 <Route path="/your-listing" element={<OwnListing />} />
+                <Route path="/post-form" element={<PostForm />} />
                 <Route path="/edit-form/:pid" element={<EditForm />} />
+                <Route path="/chatroom" element={<Chatroom />} />
               </Routes>
             </Container >
             <Footer />

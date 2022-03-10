@@ -3,6 +3,7 @@ import { Container, Button, Navbar, Nav, NavItem, NavDropdown, MenuItem } from '
 import { useAuth } from "../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 const Header = () => {
     const [error, setError] = useState("")
@@ -40,8 +41,11 @@ const Header = () => {
                         {!!currentUser ?
 
                             <Nav className="ml-auto">
+                                <Nav.Link href="/chatroom">
+                                    <ChatBubbleOutlineIcon />
+                                </Nav.Link>
                                 <Nav.Link className='d-flex my-auto'>
-                                    <PersonOutlineIcon className="mr-2" />
+                                    <img className='custom-personal-icon' src={currentUser.photoURL} />
                                     <div className=''> {currentUser.displayName}</div>
                                 </Nav.Link>
 
@@ -52,7 +56,7 @@ const Header = () => {
                             <Nav className="ml-auto">
                                 {/* <Nav.Link href="./signup">Sign Up</Nav.Link> */}
 
-                                <Nav.Link href="./login">Log In</Nav.Link>
+                                <Nav.Link href="/login">Log In</Nav.Link>
                             </Nav>
                         }
                     </Navbar.Collapse>

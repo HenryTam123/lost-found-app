@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getOnePost, deletePost } from '../utilities/firestoreAPIs.js';
+import { getOnePost, deletePost, createChatroom } from '../utilities/firestoreAPIs.js';
 import { Form, Card, Button, Badge, Container, Row, Col, Carousel, Spinner } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ const Post = () => {
     const handleDeletePost = async () => {
         if (window.confirm("Do you really want to delete this post?")) {
             setIsLoading(true);
-            await deletePost(post[0].id)
+            await deletePost(post.id)
             setIsLoading(false)
             alert("Your post is deleted Successfully")
             navigate('/posts')
@@ -25,7 +25,12 @@ const Post = () => {
     }
 
     const handleEditPost = () => {
-        navigate(`/edit-form/${post[0].id}`)
+        navigate(`/edit-form/${post.id}`)
+    }
+
+    const handleInbox = async (postId) => {
+        await createChatroom(postId, currentUser)
+        navigate(`/chatroom`)
     }
 
     useEffect(async () => {
@@ -50,9 +55,9 @@ const Post = () => {
                             <>
                                 <Col lg={12}>
                                     <Card className=" w-100 my-3">
-                                        {post[0].imageUrls.length > 0 ?
+                                        {post.imageUrls.length > 0 ?
                                             <Carousel variant="dark" interval={null}>
-                                                {post[0].imageUrls.map((url, i) => (
+                                                {post.imageUrls.map((url, i) => (
                                                     <Carousel.Item>
                                                         <img
                                                             className="d-block w-100"
@@ -67,43 +72,48 @@ const Post = () => {
                                             : ''}
                                         <Card.Body >
 
-                                            <Card.Title>{post[0].itemName}</Card.Title>
+                                            <Card.Title>{post.itemName}</Card.Title>
                                             <Card.Text>
-                                                <Badge style={{ marginRight: "5px" }} bg="secondary">{post[0].category}</Badge>
-                                                <Badge style={{ marginRight: "5px" }} bg="secondary">{post[0].status === "not_found" ? "Not found yet" : "Found"}</Badge>
-                                                <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post[0].reward || 0}</Badge>
+                                                <Badge style={{ marginRight: "5px" }} bg="secondary">{post.category}</Badge>
+                                                <Badge style={{ marginRight: "5px" }} bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
+                                                <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
 
                                             </Card.Text>
 
                                             <Card.Title>Description</Card.Title>
-                                            <Card.Text>{post[0].description}</Card.Text>
+                                            <Card.Text>{post.description}</Card.Text>
                                             <Card.Title>Date of Loss</Card.Title>
-                                            <Card.Text><Moment format="YYYY/MM/DD">{post[0]["lost_date"].seconds * 1000}</Moment></Card.Text>
+                                            <Card.Text><Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment></Card.Text>
                                             <Card.Title>Contact</Card.Title>
                                             <Card.Text>
-                                                Phone: {post[0].contact.phone}
+                                                Phone: {post.contact.phone}
                                                 <br />
-                                                Email: {post[0].contact.email}
+                                                Email: {post.contact.email}
                                             </Card.Text>
                                         </Card.Body>
                                         <Card.Footer className='d-flex justify-content-between' style={{ backgroundColor: "white" }}>
                                             <Card.Text style={{ marginTop: "1rem" }}>
-                                                <div>Posted by {post[0].creator}</div>
-                                                <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post[0].createdAt}</Moment> ago
-
-
+                                                <div>Posted by {post.creator}</div>
+                                                <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago
                                                 </div>
 
                                             </Card.Text>
 
-                                            {post[0].creatorEmail === currentUser.email &&
-                                                <Card.Text style={{ marginTop: "1rem" }}>
-                                                    <span className='d-flex justify-content-end'>
-                                                        <Button style={{ marginRight: "10px" }} variant='dark' onClick={handleEditPost}>Edit</Button>
-                                                        <Button variant='danger' onClick={handleDeletePost}>Delete</Button>
+                                            {!!currentUser ?
+                                                post.creatorEmail === currentUser.email ?
+                                                    <Card.Text style={{ marginTop: "1rem" }}>
+                                                        <span className='d-flex justify-content-end'>
+                                                            <Button style={{ marginRight: "10px" }} variant='dark' onClick={handleEditPost}>Edit</Button>
+                                                            <Button variant='danger' onClick={handleDeletePost}>Delete</Button>
 
-                                                    </span>
-                                                </Card.Text>
+                                                        </span>
+                                                    </Card.Text> :
+                                                    <Card.Text style={{ marginTop: "1rem" }}>
+                                                        <span className='d-flex justify-content-end'>
+                                                            <Button variant='primary' onClick={() => handleInbox(post.id)}>Inbox</Button>
+                                                        </span>
+                                                    </Card.Text> :
+                                                ''
 
                                             }
                                         </Card.Footer>

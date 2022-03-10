@@ -4,7 +4,9 @@ import { auth } from "../firebase-config";
 import {
     GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
     signOut, createUserWithEmailAndPassword, FacebookAuthProvider
-} from 'firebase/auth'
+} from 'firebase/auth';
+
+import { createUser } from "../utilities/firestoreAPIs";
 
 const AuthContext = createContext();
 
@@ -52,8 +54,9 @@ export function AuthProvider({ children }) {
     // }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
             setCurrentUser(user)
+            // await createUser(user)
             setLoading(false)
         })
 

@@ -228,7 +228,7 @@ const EditForm = () => {
                                         </Form.Group>
                                         <Form.Group id='item_name' className='mb-2' >
                                             <Form.Label>Reward <span className="text-muted">&#40;required&#41;</span></Form.Label>
-                                            <div class="d-flex">
+                                            <div className="d-flex">
                                                 <Form.Control type="text" style={{ marginRight: "5px", width: "60px" }} value={"HKD"} disabled></Form.Control>
                                                 <Form.Control type='text' placeholder='0' value={reward} onChange={(e) => setReward(e.target.value)} required></Form.Control>
                                             </div>                                        </Form.Group>

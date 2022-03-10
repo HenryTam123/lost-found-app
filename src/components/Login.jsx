@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 import googleLoginIcon from '../images/google-login-icon.jpg'
 import facebookLoginIcon from '../images/facebook-login-icon.jpg'
+import { createUser } from "../utilities/firestoreAPIs"
 
 
 export default function Login() {
