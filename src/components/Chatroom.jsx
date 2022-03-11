@@ -71,7 +71,7 @@ const Chatroom = () => {
                 <div className="custom-chat-container my-3 shadow" >
                     <Row className="w-100" style={{ marginLeft: "0px", paddingLeft: "0px", paddingRight: "0px" }}>
                         <Col className={`custom-chat-left border ${!showLeft && " d-none d-md-block"}`} xs={12} lg={4} md={5} >
-                            {chatrooms && currentChatroom && chatrooms.map((chatroom, i) => (
+                            {!!chatrooms && currentChatroom && chatrooms.map((chatroom, i) => (
                                 <div className={`custom-chat-snap border-bottom d-flex justify-content-between ${chatroom.postId === currentChatroom.postId && 'custom-chat-selected'}`} key={i}
                                     onClick={() => handleSelectChatroom(chatroom)}>
                                     <div>
@@ -81,10 +81,11 @@ const Chatroom = () => {
                                         <div className='text-muted'>{chatroom.postCreator}</div>
                                         {/* <div className="custom-sameline-text">{chatroom.postTitle}</div> */}
                                         <div style={{ marginTop: "10px" }} >
+                                            {chatroom.messages.length !== 0 && <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}
+                                                <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
+                                                </div></div>
+                                            }
 
-                                            <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}</div>
-                                            <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
-                                            </div>
                                         </div>
                                     </div>
                                     <div className='d-flex flex-column ml-auto'>
