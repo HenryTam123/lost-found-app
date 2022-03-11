@@ -8,7 +8,7 @@ const Header = () => {
 
     return (
         <>
-            <Navbar bg="white" variant="light" className='container w-100 mt-0 shadow-sm position-fixed' style={{ top: "0px", zIndex: 1000 }} expand="md">
+            <Navbar bg="white" variant="light" className='w-100 mt-0 shadow-sm position-fixed' style={{ top: "0px", zIndex: 1000 }} expand="md">
                 <Container className="px-3">
                     <Navbar.Brand href="/">L&amp;F</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

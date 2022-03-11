@@ -27,7 +27,7 @@ const Home = () => {
     return (
         < >
             <Container style={{ minHeight: "70vh", paddingTop: "55px" }} >
-                <Row className='py-5 px-1'>
+                <Row className='py-5 px-1 mt-4'>
                     <Col xs={12} md={4} lg={4} className="my-auto">
                         <div className='h1 mb-4 mt-5' >
                             Help Someone Find Their Lost Items
