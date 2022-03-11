@@ -95,7 +95,7 @@
 
 .custom-chat-message-left{
     background-color: #f0f1f1;
-   align-self: start !important;
+    align-self: flex-start !important;
     max-width: 200px;
     padding: 8px 15px;
     margin: 7px 30px;

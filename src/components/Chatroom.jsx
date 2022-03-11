@@ -101,8 +101,8 @@ const Chatroom = () => {
                                     <div className='custom-chat-header border-bottom border-top align-items-center'>
                                         <ArrowBackIcon className="d-block d-xs-block d-sm-block d-md-none d-lg-none" style={{ cursor: "pointer" }} onClick={() => setShowLeft(true)} />
 
-                                        <div className='d-flex align-items-center' style={{ minWidth: "180px", marginLeft: "10px" }}>
-                                            <img className='custom-personal-icon-chat' src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
+                                        <div className='d-flex align-items-center' style={{ minWidth: "150px", marginLeft: "10px" }}>
+                                            <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
                                             <div className=''>
                                                 <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postCreatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
                                             </div>
