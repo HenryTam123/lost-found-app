@@ -104,7 +104,7 @@ const Chatroom = () => {
                                         <div className='d-flex align-items-center' style={{ minWidth: "180px", marginLeft: "10px" }}>
                                             <img className='custom-personal-icon-chat' src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
                                             <div className=''>
-                                                <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${post.creatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
+                                                <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postCreatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
                                             </div>
                                         </div>
 
