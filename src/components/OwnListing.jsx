@@ -14,8 +14,6 @@ const OwnListing = () => {
     useEffect(async () => {
         setIsLoading(true)
         const data = await getUserPosts(currentUser.email);
-        console.log(data)
-        console.log(currentUser)
         setPosts(data)
         setIsLoading(false)
 
@@ -77,7 +75,11 @@ const OwnListing = () => {
                                             </Card.Body>
                                             <Card.Footer style={{ backgroundColor: "white" }}>
                                                 <Card.Text>
-                                                    Posted by {post.creator}
+                                                    Posted by
+                                                    <span style={{ marginLeft: "8px" }}>
+                                                        <img className='custom-personal-icon' src={post.creatorPhoto} />
+                                                        {post.creator}
+                                                    </span>
                                                     <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>
                                                 </Card.Text>
                                             </Card.Footer>

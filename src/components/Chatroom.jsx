@@ -20,12 +20,6 @@ const Chatroom = () => {
     const [currentChatroom, setCurrentChatroom] = useState()
     const [userInput, setUserInput] = useState('');
 
-    let query = useQuery()
-    // if (query.get("postId")) {
-    //     getOneChatroom(query.get("postId"), currentUser)
-
-    // }
-
     useEffect(async () => {
         setIsLoading(true)
         let data = await getChatrooms(currentUser)
@@ -33,7 +27,6 @@ const Chatroom = () => {
             data.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
             setChatrooms(data)
             setCurrentChatroom(data[0])
-
             setIsLoading(false)
         }
 
@@ -72,11 +65,11 @@ const Chatroom = () => {
     return (
         <div style={{ paddingTop: "75px" }}>
             <Container>
-                <h4 className='py-2 custom-label'>Chatrooms</h4>
+                <h4 className='py-2 custom-label'>Your Inbox</h4>
             </Container>
             {! !currentUser && chatrooms.length !== 0 ?
                 <div className="custom-chat-container my-3 shadow" >
-                    <Row className="w-100" style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+                    <Row className="w-100" style={{ marginLeft: "0px", paddingLeft: "0px", paddingRight: "0px" }}>
                         <Col className={`custom-chat-left border ${!showLeft && " d-none d-md-block"}`} xs={12} lg={4} md={5} >
                             {chatrooms && currentChatroom && chatrooms.map((chatroom, i) => (
                                 <div className={`custom-chat-snap border-bottom d-flex justify-content-between ${chatroom.postId === currentChatroom.postId && 'custom-chat-selected'}`} key={i}
@@ -86,12 +79,12 @@ const Chatroom = () => {
                                     </div>
                                     <div className='flex-1 d-flex flex-column w-100'>
                                         <div className='text-muted'>{chatroom.postCreator}</div>
-                                        <div className="custom-sameline-text">{chatroom.postTitle}</div>
+                                        {/* <div className="custom-sameline-text">{chatroom.postTitle}</div> */}
                                         <div style={{ marginTop: "10px" }} >
 
-                                            {chatroom.messages[chatroom.messages.length - 1].message}
-                                            <span className='text-muted' style={{ fontSize: "13px", marginLeft: "15px" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
-                                            </span>
+                                            <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}</div>
+                                            <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
+                                            </div>
                                         </div>
                                     </div>
                                     <div className='d-flex flex-column ml-auto'>
@@ -105,9 +98,9 @@ const Chatroom = () => {
                             {!!currentChatroom &&
                                 <>
                                     <div className='custom-chat-header border-bottom border-top align-items-center'>
-                                        <ArrowBackIcon className="d-none d-sm-block d-md-none d-lg-none" style={{ cursor: "pointer" }} onClick={() => setShowLeft(true)} />
+                                        <ArrowBackIcon className="d-block d-xs-block d-sm-block d-md-none d-lg-none" style={{ cursor: "pointer" }} onClick={() => setShowLeft(true)} />
 
-                                        <div className='d-flex align-items-center' style={{ minWidth: "200px" }}>
+                                        <div className='d-flex align-items-center' style={{ minWidth: "180px", marginLeft: "10px" }}>
                                             <img className='custom-personal-icon-chat' src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
                                             <div className=''>
                                                 <div >{currentChatroom.postCreator}</div>
@@ -115,7 +108,7 @@ const Chatroom = () => {
                                         </div>
 
                                         <div className='d-flex align-items-center w-auto'
-                                            style={{ justifySelf: "flex-end", marginRight: "20px", cursor: "pointer" }}
+                                            style={{ justifySelf: "flex-end", marginRight: "20px", marginLeft: "auto", cursor: "pointer" }}
                                             onClick={() => navigate(`/post/${currentChatroom.postId}`)}
                                         >
                                             <div className='cursor-pointer custom-sameline-text-two' >{currentChatroom.postTitle}</div>

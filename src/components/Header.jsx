@@ -46,7 +46,7 @@ const Header = () => {
                                 </Nav.Link>
                                 <Nav.Link className='d-flex my-auto'>
                                     <img className='custom-personal-icon' src={currentUser.photoURL} />
-                                    <div className=''> {currentUser.displayName}</div>
+                                    <div className='' onClick={() => navigate(`/profile/${currentUser.email.split("@")[0]}`)}> {currentUser.displayName}</div>
                                 </Nav.Link>
 
                                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>

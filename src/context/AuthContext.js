@@ -6,8 +6,6 @@ import {
     signOut, createUserWithEmailAndPassword, FacebookAuthProvider
 } from 'firebase/auth';
 
-import { createUser } from "../utilities/firestoreAPIs";
-
 const AuthContext = createContext();
 
 export function useAuth() {

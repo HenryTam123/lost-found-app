@@ -1,7 +1,4 @@
 import './style/style.css';
-import { useState, useEffect } from 'react';
-import { db } from './firebase-config';
-// import { collection, getDocs, addDoc } from 'firebase/firestore'
 import { Container, Navbar } from 'react-bootstrap';
 import { AuthProvider } from "./context/AuthContext"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
@@ -16,6 +13,7 @@ import PostForm from './components/PostForm';
 import OwnListing from './components/OwnListing';
 import EditForm from './components/EditForm';
 import Chatroom from './components/Chatroom'
+import Profile from './components/Profile';
 
 function App() {
 
@@ -36,6 +34,7 @@ function App() {
                 <Route path="/post-form" element={<PostForm />} />
                 <Route path="/edit-form/:pid" element={<EditForm />} />
                 <Route path="/chatroom" element={<Chatroom />} />
+                <Route path="/profile/:id" element={<Profile />} />
               </Routes>
             </Container >
             <Footer />

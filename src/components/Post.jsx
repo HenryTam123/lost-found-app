@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getOnePost, deletePost, createChatroom } from '../utilities/firestoreAPIs.js';
-import { Form, Card, Button, Badge, Container, Row, Col, Carousel, Spinner } from 'react-bootstrap';
+import { Card, Button, Badge, Container, Row, Col, Carousel, Spinner } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext"
@@ -92,11 +92,13 @@ const Post = () => {
                                             </Card.Text>
                                         </Card.Body>
                                         <Card.Footer className='d-flex justify-content-between' style={{ backgroundColor: "white" }}>
-                                            <Card.Text style={{ marginTop: "1rem" }}>
-                                                <div>Posted by {post.creator}</div>
-                                                <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago
-                                                </div>
-
+                                            <Card.Text >
+                                                Posted by
+                                                <span style={{ marginLeft: "8px" }} className="custom-text-underline-hover" onClick={() => navigate(`/profile/${post.creatorEmail.split("@")[0]}`)}>
+                                                    <img className='custom-personal-icon' src={post.creatorPhoto} />
+                                                    {post.creator}
+                                                </span>
+                                                <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>
                                             </Card.Text>
 
                                             {!!currentUser ?

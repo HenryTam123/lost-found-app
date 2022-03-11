@@ -1,12 +1,10 @@
 import {
-    collection, doc, addDoc, getDoc, getDocs, setDoc, deleteDoc, query,
-    where, orderBy, startAt, endAt, FieldPath, documentId, limit
+    collection, doc, addDoc, getDocs, setDoc, deleteDoc, query,
+    where, orderBy, documentId
 } from "firebase/firestore";
 import { db } from '../firebase-config';
 
 export const getPosts = async (filters = {}) => {
-
-    let pageSize = 4;
 
     let q1 = query(collection(db, "posts"),
         orderBy("createdAt", filters.sortBy),
@@ -56,7 +54,6 @@ export const getUserPosts = async (email) => {
     }
 
 }
-
 
 export const getOnePost = async (postId) => {
     try {
@@ -181,7 +178,9 @@ export const createUser = async (userDoc) => {
                     displayName,
                     photoURL,
                     email,
-                    chatroomIds: []
+                    chatroomIds: [],
+                    uid: email.split("@")[0],
+                    joinedAt: new Date().getTime()
                 });
                 console.log("created userDoc with doc ID: ", docRef.id);
 
@@ -264,6 +263,21 @@ export const updateChatMessage = async (chatroomId, message) => {
         await setDoc(doc(db, "chatrooms", chatroomId), { messages: [...data[0].messages, message], updatedAt: new Date().getTime() }, { merge: true });
         return
 
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const getOneUserProfile = async (uid) => {
+    try {
+
+        let q = query(collection(db, "users"), where("uid", "==", uid))
+
+        const res = await getDocs(q);
+        let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        console.log(data[0])
+
+        return data[0]
     } catch (err) {
         console.log(err)
     }

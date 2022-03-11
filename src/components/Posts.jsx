@@ -42,8 +42,11 @@ const Posts = () => {
 
         const data = await getPosts(filters);
         setIsLoading(false)
-        setPosts(data)
-        setTotalDocs(data[0].totalDocs)
+
+        let filteredData = data.filter(d => d.itemName.toLowerCase().includes(textQuery.toLowerCase()))
+
+        setPosts(filteredData)
+        setTotalDocs(filteredData.length)
     }
 
 
@@ -175,8 +178,8 @@ const Posts = () => {
                                                 <Card.Footer style={{ backgroundColor: "white" }}>
                                                     <Card.Text>
                                                         Posted by
-                                                        <span style={{ marginLeft: "8px" }}>
-                                                            <img className='custom-personal-icon' src={post.creatorPhoto} />
+                                                        <span style={{ marginLeft: "8px" }} className="custom-text-underline-hover" onClick={() => navigate(`/profile/${post.creatorEmail.split("@")[0]}`)}>
+                                                            <img className='custom-personal-icon' src={post.creatorPhoto} alt="icon" />
                                                             {post.creator}
                                                         </span>
                                                         <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>
@@ -186,7 +189,7 @@ const Posts = () => {
                                         </Col>
                                     )
                                 }
-
+                                return
 
                             }) :
                                 <div>NO LISTING</div>
