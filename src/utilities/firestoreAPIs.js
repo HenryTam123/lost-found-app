@@ -212,12 +212,14 @@ export const createChatroom = async (postId, userDoc) => {
             const docRef = await addDoc(collection(db, "chatrooms"), {
                 createdAt: new Date().getTime(),
                 postId: postId,
-                postCreatorEmail: post.creatorEmail,
                 postTitle: post.itemName,
-                postCreator: post.creator,
                 postThumb: post.imageUrls[0],
+                postCreatorEmail: post.creatorEmail,
+                postCreator: post.creator,
                 postCreatorPhoto: post.creatorPhoto,
+                postViewer: userDoc.displayName,
                 postViewerEmail: userDoc.email,
+                postViewPhoto: userDoc.photoURL,
                 messages: []
             });
             console.log("created chatroom with doc ID: ", docRef.id);

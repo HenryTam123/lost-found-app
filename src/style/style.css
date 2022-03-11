@@ -86,6 +86,9 @@
    flex:1;
    background-color: white;
    padding-top: 30px;
+   overflow-y: scroll;
+   -ms-overflow-style: none;  /* IE and Edge */
+   scrollbar-width: none;  /* Firefox */
 }
 .custom-chat-inputbox{
     width: 100% !important;
@@ -107,7 +110,7 @@
 .custom-chat-message-right{
     background-color: #014a99;
     color: white;
-    align-self: end !important;
+    align-self: flex-end !important;
     max-width: 200px;
     padding: 8px 15px;
     margin: 7px 30px;
@@ -168,9 +171,33 @@
     margin-right: 8px;
 }
 
-@media (max-width: 576px) { 
+.container{
+    padding: 5px 4px!important;
+}
+
+@media (min-width: 300px) { 
+    .custom-sameline-text-two{
+        max-width: 50px;
+    }
+    .custom-sameline-text{
+        max-width: 140px; 
+    }
+
+}
+
+@media (min-width: 400px) { 
     .custom-sameline-text-two{
         max-width: 100px;
+    }
+    .custom-sameline-text{
+        max-width: 140px; 
+    }
+
+}
+
+@media (min-width: 576px) { 
+    .custom-sameline-text-two{
+        max-width: 120px;
     }
     .custom-sameline-text{
         max-width: 140px; 

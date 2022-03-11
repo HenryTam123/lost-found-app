@@ -24,7 +24,7 @@ const OwnListing = () => {
                 <h4 className='text-start custom-label py-2'>Your Posts</h4>
 
             </Container>
-            {!!currentUser ? <Container className='container d-flex flex-wrap my-3 '>
+            {!!currentUser ? <Container className='container d-flex flex-wrap justify-content-center my-3 '>
 
                 {isLoading ? <div className='d-flex justify-content-center w-100' style={{ minHeight: "70vh" }}>
                     <Spinner animation="border" className="my-auto" role="status">

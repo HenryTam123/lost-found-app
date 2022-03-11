@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button, Container, Row, Col } from 'react-bootstrap'
 import landingPicture from '../images/landing.svg'
 import Image from 'react-bootstrap/Image'
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { createUser } from '../utilities/firestoreAPIs'
 import { useAuth } from "../context/AuthContext";
 
@@ -27,9 +27,9 @@ const Home = () => {
     return (
         < >
             <Container style={{ minHeight: "70vh", paddingTop: "55px" }} >
-                <Row className='py-5'>
+                <Row className='py-5 px-1'>
                     <Col xs={12} md={4} lg={4} className="my-auto">
-                        <div className='h1 mb-4' >
+                        <div className='h1 mb-4 mt-5' >
                             Help Someone Find Their Lost Items
                         </div>
                         <Button className='custom-bg-primary btn-lg font-weight-bold' onClick={handleStart}>GET STARTED</Button>

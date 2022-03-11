@@ -14,12 +14,13 @@ import OwnListing from './components/OwnListing';
 import EditForm from './components/EditForm';
 import Chatroom from './components/Chatroom'
 import Profile from './components/Profile';
+import Logout from './components/Logout';
 
 function App() {
 
   return (
     <div className="App">
-      <div className='w-100' style={{ backgroundColor: "#f6f6f6" }}>
+      <div className='w-100' style={{ backgroundColor: "#f6f6f6", "overflow": "hidden" }}>
         <Router>
           <AuthProvider>
             <Header />
@@ -28,6 +29,7 @@ function App() {
                 <Route exact path="/" element={<Home />} />
                 {/* <Route path="/signup" element={<SignUp />} /> */}
                 <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/post/:pid" element={<Post />} />
                 <Route path="/your-listing" element={<OwnListing />} />

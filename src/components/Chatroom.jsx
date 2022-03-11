@@ -74,20 +74,40 @@ const Chatroom = () => {
                             {!!chatrooms && currentChatroom && chatrooms.map((chatroom, i) => (
                                 <div className={`custom-chat-snap border-bottom d-flex justify-content-between ${chatroom.postId === currentChatroom.postId && 'custom-chat-selected'}`} key={i}
                                     onClick={() => handleSelectChatroom(chatroom)}>
-                                    <div>
-                                        <img className='custom-personal-icon-chat' style={{ marginTop: "5px" }} src={chatroom.postCreatorPhoto} />
-                                    </div>
-                                    <div className='flex-1 d-flex flex-column w-100'>
-                                        <div className='text-muted'>{chatroom.postCreator}</div>
-                                        {/* <div className="custom-sameline-text">{chatroom.postTitle}</div> */}
-                                        <div style={{ marginTop: "10px" }} >
-                                            {chatroom.messages.length !== 0 && <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}
-                                                <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
-                                                </div></div>
-                                            }
+                                    {currentUser.displayName === chatroom.postCreator ?
+                                        <>
+                                            <div>
 
-                                        </div>
-                                    </div>
+                                                <img className='custom-personal-icon-chat' style={{ marginTop: "5px" }} src={chatroom.postViewerPhoto} />
+                                            </div>
+                                            <div className='flex-1 d-flex flex-column w-100'>
+                                                <div className='text-muted'>{chatroom.postViewer}</div>
+                                                <div style={{ marginTop: "10px" }} >
+                                                    {chatroom.messages.length !== 0 && <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}
+                                                        <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
+                                                        </div></div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </> :
+                                        <>
+                                            <div>
+
+                                                <img className='custom-personal-icon-chat' style={{ marginTop: "5px" }} src={chatroom.postCreatorPhoto} />
+                                            </div>
+                                            <div className='flex-1 d-flex flex-column w-100'>
+                                                <div className='text-muted'>{chatroom.postCreator}</div>
+                                                <div style={{ marginTop: "10px" }} >
+                                                    {chatroom.messages.length !== 0 && <div className='custom-sameline-text'>{chatroom.messages[chatroom.messages.length - 1].message}
+                                                        <div className='text-muted' style={{ fontSize: "13px", marginLeft: "" }}><Moment fromNow ago>{chatroom.updatedAt}</Moment> ago
+                                                        </div></div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </>}
+
                                     <div className='d-flex flex-column ml-auto'>
                                         <img className="custom-chat-post-icon" src={chatroom.postThumb} />
                                     </div>
@@ -95,17 +115,30 @@ const Chatroom = () => {
 
                             ))}
                         </Col>
-                        <Col className={`${showLeft && "d-none"} d-md-flex custom-chat-right d-flex flex-column`} xs={0} sm={0} lg={8} md={7}>
+                        <Col style={{ paddingRight: "0" }} className={`${showLeft && "d-none"} d-md-flex custom-chat-right d-flex flex-column`} xs={0} sm={0} lg={8} md={7}>
                             {!!currentChatroom &&
                                 <>
                                     <div className='custom-chat-header border-bottom border-top align-items-center'>
                                         <ArrowBackIcon className="d-block d-xs-block d-sm-block d-md-none d-lg-none" style={{ cursor: "pointer" }} onClick={() => setShowLeft(true)} />
 
                                         <div className='d-flex align-items-center' style={{ minWidth: "150px", marginLeft: "10px" }}>
-                                            <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
-                                            <div className=''>
-                                                <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postCreatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
-                                            </div>
+                                            {currentUser.email === currentChatroom.postCreatorEmail ?
+                                                <>
+                                                    <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postViewerPhoto} style={{ marginTop: "5px" }} />
+                                                    <div className=''>
+                                                        <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postViewerEmail.split("@")[0]}`)}>{currentChatroom.postViewer}</div>
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
+                                                    <div className=''>
+                                                        <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postCreatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
+                                                    </div>
+                                                </>
+
+                                            }
+
                                         </div>
 
                                         <div className='d-flex align-items-center w-auto'
