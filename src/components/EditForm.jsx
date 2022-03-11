@@ -41,9 +41,9 @@ const EditForm = () => {
         setIsLoading(true)
         let postId = location.pathname.split("/").pop();
         const data = await getOnePost(postId);
-        setCurrentPost(data[0])
+        setCurrentPost(data)
 
-        renderData(data[0])
+        renderData(data)
         setIsLoading(false)
 
     }, [])
