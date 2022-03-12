@@ -45,13 +45,11 @@ const Chatroom = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (userInput !== '') {
-            console.log("called")
             let newMessage = {
                 createdAt: new Date().getTime(),
                 message: userInput,
                 sender: currentUser.email
             }
-            console.log(currentChatroom)
             await updateChatMessage(currentChatroom.id, newMessage)
             let data = await getChatrooms(currentUser)
             data.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)

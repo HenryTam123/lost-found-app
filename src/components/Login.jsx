@@ -43,7 +43,6 @@ export default function Login() {
             await signInWithGoogle();
             navigate('/');
         } catch (err) {
-            console.log(error)
             setError("Failed to log in")
         }
     }
@@ -55,7 +54,6 @@ export default function Login() {
             await signInWithFacebook();
             navigate('/');
         } catch (err) {
-            console.log(error)
             setError("Failed to log in")
         }
 

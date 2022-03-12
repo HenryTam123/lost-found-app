@@ -15,11 +15,8 @@ const Home = () => {
         navigate('./posts')
     }
 
-    console.log(currentUser)
 
     useEffect(async () => {
-        console.log(currentUser)
-
         await createUser(currentUser)
 
     }, [])
