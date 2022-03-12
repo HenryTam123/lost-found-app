@@ -1,6 +1,8 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import logo from '../images/logo.jpeg'
+
 
 const Footer = () => {
     return (
@@ -8,7 +10,10 @@ const Footer = () => {
             <Container style={{ padding: "30px 0px" }}>
                 <Row className="py-2">
                     <Col lg={4} md={4} sm={12} className="my-2 text-center">
-                        <div className="text-white h5">L&amp;F</div>
+                        <div className="text-white h5">
+                            <img src={logo} alt='logo' width="40"
+                                height="40" />
+                        </div>
                         <div className="text-light ">Find Lost Items Online</div>
                     </Col>
                     <Col lg={4} md={4} sm={12} className="my-2 text-center" >

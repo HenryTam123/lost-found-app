@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { useAuth } from "../context/AuthContext"
+import logo from '../images/logo.jpeg'
 import { useNavigate } from "react-router-dom"
 
 const Header = () => {
@@ -10,7 +11,10 @@ const Header = () => {
         <>
             <Navbar bg="white" variant="light" className='w-100 mt-0 shadow-sm position-fixed' style={{ top: "0px", zIndex: 1000 }} expand="md">
                 <Container className="px-3">
-                    <Navbar.Brand href="/">L&amp;F</Navbar.Brand>
+                    <Navbar.Brand href="/">
+                        <img src={logo} alt='logo' width="40"
+                            height="40" />
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="navbarScroll">
 
