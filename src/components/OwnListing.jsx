@@ -61,16 +61,13 @@ const OwnListing = () => {
                                                     <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
 
                                                 </Card.Text>
-
-                                                <Card.Text>Description: {post.description}</Card.Text>
-                                                {/* <Button variant="primary">More</Button> */}
+                                                {post.lostPlace && <Card.Text>Location: {post.lostPlace}</Card.Text>
+                                                }
+                                                <Card.Text className="custom-post-text-container">Description: {post.description}</Card.Text>
                                                 {post.lost_date &&
-                                                    <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment></Card.Text>
+                                                    <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ''}</Card.Text>
 
                                                 }
-                                                {/* <Card.Text>Contact</Card.Text>
-                                            <div>Phone: {post.contact.phone}</div>
-                                            <div>Email: {post.contact.email}</div> */}
 
                                             </Card.Body>
                                             <Card.Footer style={{ backgroundColor: "white" }}>

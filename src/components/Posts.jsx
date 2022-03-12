@@ -19,7 +19,7 @@ const Posts = () => {
     const navigate = useNavigate();
 
 
-    let categories = ['Accessory', 'Bag', 'Book & Stationery', 'Certificate', 'Clothes', 'Electronic Product', 'Pet', 'Valuables', 'Others']
+    let categories = ['Accessory', 'Bag', 'Book & Stationery', 'Certificate', 'Clothes', 'Electronic Product', "People", 'Pet', 'Valuables', 'Others']
 
     let filters = {
         textQuery: textQuery,
@@ -169,10 +169,11 @@ const Posts = () => {
                                                         <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
 
                                                     </Card.Text>
-
-                                                    <Card.Text>Description: {post.description}</Card.Text>                                                {post.lost_date &&
-                                                        <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment></Card.Text>
-
+                                                    {post.lostPlace && <Card.Text>Location: {post.lostPlace}</Card.Text>
+                                                    }
+                                                    <Card.Text className="custom-post-text-container">Description: {post.description}</Card.Text>
+                                                    {post.lost_date &&
+                                                        <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ''}</Card.Text>
                                                     }
                                                 </Card.Body>
                                                 <Card.Footer style={{ backgroundColor: "white" }}>

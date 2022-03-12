@@ -15,6 +15,7 @@ import EditForm from './components/EditForm';
 import Chatroom from './components/Chatroom'
 import Profile from './components/Profile';
 import Logout from './components/Logout';
+import PageNotFound from './components/PageNotFound';
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 {/* <Route path="/signup" element={<SignUp />} /> */}
-                <Route path="/login" element={<Login />} />
+                <Route exact path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/post/:pid" element={<Post />} />
@@ -37,6 +38,8 @@ function App() {
                 <Route path="/edit-form/:pid" element={<EditForm />} />
                 <Route path="/chatroom" element={<Chatroom />} />
                 <Route path="/profile/:id" element={<Profile />} />
+                <Route path="*" element={<PageNotFound />} />
+
               </Routes>
             </Container >
             <Footer />

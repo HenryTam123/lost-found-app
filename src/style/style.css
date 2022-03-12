@@ -26,6 +26,15 @@
     margin-right: 8px;
 }
 
+.custom-social-icon{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    overflow: hidden;
+    margin-right: 8px;
+}
+
+
 .custom-personal-icon-chat{
     border-radius: 50%;
     height: 40px;
@@ -170,6 +179,35 @@
     overflow: hidden;
     margin-right: 8px;
 }
+
+.custom-post-text-container{
+    max-height: 150px;
+    text-overflow: ellipsis;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.custom-post-text-container::-webkit-scrollbar{
+    display: none;
+}
+
+.custom-post-big-text-container{
+    max-height: 300px;
+    text-overflow: ellipsis;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* .custom-post-big-text-container::-webkit-scrollbar{
+    display: none;
+} */
+
 
 .container{
     padding: 5px 4px!important;

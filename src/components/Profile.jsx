@@ -88,9 +88,9 @@ const Profile = () => {
                                                                 <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
 
                                                             </Card.Text>
-                                                            <Card.Text>Description: {post.description}</Card.Text>
+                                                            <Card.Text className='custom-post-text-container'>Description: {post.description}</Card.Text>
                                                             {post.lost_date &&
-                                                                <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment></Card.Text>
+                                                                <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment>{post.lostTime || ''}</Card.Text>
 
                                                             }
                                                         </Card.Body>
