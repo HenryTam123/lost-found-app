@@ -7,6 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link, useNavigate } from "react-router-dom"
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const PostForm = () => {
 
@@ -116,13 +117,16 @@ const PostForm = () => {
         navigate('/posts')
     }
 
+    const render = (status) => {
+        return <h1>{status}</h1>;
+    };
 
     return (
         <div style={{ paddingTop: "75px" }}>
             <h4 className='py-3 custom-label' >List your lost item on our website</h4>
             {!!currentUser ? <div className='d-flex flex-wrap mb-4'>
 
-                <Card className=" shadow border m-2" >
+                <Card className=" shadow border m-2" style={{ maxHeight: "300px" }}>
                     <Card.Body>
                         <Form className='mb-2'>
                             <Form.Group id='image' >
@@ -151,7 +155,7 @@ const PostForm = () => {
                             </Form.Group>
                             <Form.Group id='item_lost_place' className='mb-3' >
                                 <Form.Label>Where did you lose the item?  <span className="text-muted">&#40;required&#41;</span></Form.Label>
-                                <Form.Control type='text' placeholder="E.g. TKO Mtr Station" required ref={lostPlaceRef} ></Form.Control>
+                                {/* <Form.Control type='text' placeholder="E.g. TKO Mtr Station" required ref={lostPlaceRef} ></Form.Control> */}
                             </Form.Group>
                             <Form.Label>When did you lose your item?</Form.Label>
 

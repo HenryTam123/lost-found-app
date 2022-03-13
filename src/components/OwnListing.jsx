@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getUserPosts } from '../utilities/firestoreAPIs.js';
-import { Card, Button, Badge, Container, Row, Col, Carousel, Spinner } from 'react-bootstrap';
-import Moment from 'react-moment';
+import { Button, Container, Row, Spinner } from 'react-bootstrap';
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
+import PostCard from './PostCard'
 
 const OwnListing = () => {
     const [posts, setPosts] = useState([]);
@@ -36,52 +36,7 @@ const OwnListing = () => {
                         {
                             posts.length !== 0 ? posts.map((post, i) => {
                                 return (
-                                    <Col lg={3} md={4} sm={6} key={i}>
-                                        <Card className="shadow cursor-pointer custom-hover-effect w-100 my-3" key={i}>
-                                            {post.imageUrls.length > 0 ?
-                                                <Carousel variant="dark" interval={null}>
-                                                    {post.imageUrls.map((url, i) => (
-                                                        <Carousel.Item key={i}>
-                                                            <img
-                                                                className="d-block w-100"
-                                                                style={{ objectFit: "cover", height: "200px" }}
-                                                                src={url}
-                                                                alt={`slide ${i + 1}`}
-                                                            />
-                                                        </Carousel.Item>
-                                                    ))}
-                                                </Carousel>
-
-                                                : ''}
-                                            <Card.Body style={{ cursor: "pointer" }} onClick={() => navigate(`/post/${post.id}`)}>
-                                                <Card.Title>{post.itemName}</Card.Title>
-                                                <Card.Text>
-                                                    <Badge style={{ marginRight: "5px" }} bg="secondary">{post.category}</Badge>
-                                                    <Badge style={{ marginRight: "5px" }} bg="secondary">{post.status === "not_found" ? "Not found yet" : "Found"}</Badge>
-                                                    <Badge style={{ marginRight: "5px" }} bg="primary">Reward: ${post.reward || 0}</Badge>
-
-                                                </Card.Text>
-                                                {post.lostPlace && <Card.Text>Location: {post.lostPlace}</Card.Text>
-                                                }
-                                                <Card.Text className="custom-post-text-container">Description: {post.description}</Card.Text>
-                                                {post.lost_date &&
-                                                    <Card.Text>Lost on <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ''}</Card.Text>
-
-                                                }
-
-                                            </Card.Body>
-                                            <Card.Footer style={{ backgroundColor: "white" }}>
-                                                <Card.Text>
-                                                    Posted by
-                                                    <span style={{ marginLeft: "8px" }}>
-                                                        <img className='custom-personal-icon' src={post.creatorPhoto} />
-                                                        {post.creator}
-                                                    </span>
-                                                    <div className='text-muted' style={{ fontSize: "13px" }}><Moment fromNow ago>{post.createdAt}</Moment> ago</div>
-                                                </Card.Text>
-                                            </Card.Footer>
-                                        </Card>
-                                    </Col>
+                                    <PostCard post={post} key={i} />
                                 )
 
                             }) :

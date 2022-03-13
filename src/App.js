@@ -1,8 +1,7 @@
 import './style/style.css';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { AuthProvider } from "./context/AuthContext"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import SignUp from './components/SignUp'
 import Login from './components/Login'
 import Header from './components/Header';
 import Home from './components/Home'

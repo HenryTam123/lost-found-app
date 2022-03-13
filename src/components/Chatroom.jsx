@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Container, Spinner } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { getChatrooms, updateChatMessage } from '../utilities/firestoreAPIs';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
-}
 
 const Chatroom = () => {
     const navigate = useNavigate()
@@ -21,26 +16,24 @@ const Chatroom = () => {
     const [userInput, setUserInput] = useState('');
 
     useEffect(async () => {
-        setIsLoading(true)
-        let data = await getChatrooms(currentUser)
-        if (!!data) {
-            data.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
-            setChatrooms(data)
-            setCurrentChatroom(data[0])
+        const fetchData = async () => {
+            setIsLoading(true)
+            let data = await getChatrooms(currentUser)
+            if (!!data) {
+                data.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
+                setChatrooms(data)
+                setCurrentChatroom(data[0])
+                setIsLoading(false)
+            }
             setIsLoading(false)
         }
-
-
-
-        setIsLoading(false)
+        fetchData()
     }, [])
 
     const handleSelectChatroom = (chatroom) => {
         setCurrentChatroom(chatroom)
         setShowLeft(false)
-
     }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -76,7 +69,7 @@ const Chatroom = () => {
                                         <>
                                             <div>
 
-                                                <img className='custom-personal-icon-chat' style={{ marginTop: "5px" }} src={chatroom.postViewerPhoto} />
+                                                <img className='custom-personal-icon-chat' alt={"icon"} style={{ marginTop: "5px" }} src={chatroom.postViewerPhoto} />
                                             </div>
                                             <div className='flex-1 d-flex flex-column w-100'>
                                                 <div className='text-muted'>{chatroom.postViewer}</div>
@@ -91,8 +84,7 @@ const Chatroom = () => {
                                         </> :
                                         <>
                                             <div>
-
-                                                <img className='custom-personal-icon-chat' style={{ marginTop: "5px" }} src={chatroom.postCreatorPhoto} />
+                                                <img className='custom-personal-icon-chat' alt='icon' style={{ marginTop: "5px" }} src={chatroom.postCreatorPhoto} />
                                             </div>
                                             <div className='flex-1 d-flex flex-column w-100'>
                                                 <div className='text-muted'>{chatroom.postCreator}</div>
@@ -122,14 +114,14 @@ const Chatroom = () => {
                                         <div className='d-flex align-items-center' style={{ minWidth: "150px", marginLeft: "10px" }}>
                                             {currentUser.email === currentChatroom.postCreatorEmail ?
                                                 <>
-                                                    <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postViewerPhoto} style={{ marginTop: "5px" }} />
+                                                    <img alt='icon' className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postViewerPhoto} style={{ marginTop: "5px" }} />
                                                     <div className=''>
                                                         <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postViewerEmail.split("@")[0]}`)}>{currentChatroom.postViewer}</div>
                                                     </div>
                                                 </>
                                                 :
                                                 <>
-                                                    <img className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
+                                                    <img alt='icon' className={`${showLeft && " d-none d-md-block"} custom-personal-icon-chat`} src={currentChatroom.postCreatorPhoto} style={{ marginTop: "5px" }} />
                                                     <div className=''>
                                                         <div className="custom-text-underline-hover" onClick={() => navigate(`/profile/${currentChatroom.postCreatorEmail.split("@")[0]}`)}>{currentChatroom.postCreator}</div>
                                                     </div>
@@ -144,7 +136,7 @@ const Chatroom = () => {
                                             onClick={() => navigate(`/post/${currentChatroom.postId}`)}
                                         >
                                             <div className='cursor-pointer custom-sameline-text-two' >{currentChatroom.postTitle}</div>
-                                            <img className="custom-chat-post-icon" src={currentChatroom.postThumb} />
+                                            <img alt='icon' className="custom-chat-post-icon" src={currentChatroom.postThumb} />
 
                                         </div>
                                     </div>
