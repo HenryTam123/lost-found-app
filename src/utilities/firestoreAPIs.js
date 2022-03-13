@@ -61,7 +61,6 @@ export const getOnePost = async (postId) => {
 
         const res = await getDocs(q);
         let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        console.log(data)
 
         return data[0]
 
@@ -77,14 +76,12 @@ export const uploadImages = async (files) => {
 
 export const addPost = async (newPost = {}) => {
     try {
-        console.log(newPost)
         const docRef = await addDoc(collection(db, "posts"), {
             createdAt: new Date().getTime(),
             // status can be ["found", "not_found"]
             status: "not_found",
             ...newPost,
         });
-        console.log("Document written with ID: ", docRef.id);
 
         return docRef
     } catch (e) {
@@ -95,7 +92,6 @@ export const addPost = async (newPost = {}) => {
 
 export const updatePost = async (postId, updatedPost) => {
     try {
-        console.log(postId)
         await setDoc(doc(db, "posts", postId), updatedPost, { merge: true });
 
     } catch (err) {
@@ -107,7 +103,6 @@ export const updatePost = async (postId, updatedPost) => {
 export const deletePost = async (postId) => {
     try {
         const res = await deleteDoc(doc(db, "posts", postId));
-        console.log(res)
     } catch (err) {
         console.error("Error deleting document: ", err);
 
@@ -136,8 +131,6 @@ export const getChatrooms = async (userDoc) => {
                 returnData = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
             }
 
-            console.log(returnData)
-
             return returnData
         }
 
@@ -153,7 +146,6 @@ export const getOneChatroom = async (chatroomId) => {
 
         const res = await getDocs(q);
         let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        console.log(data[0])
 
         return data[0]
     } catch (err) {
@@ -171,7 +163,6 @@ export const createUser = async (userDoc) => {
             let userDoc2 = await getDocs(q);
             let data = userDoc2.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-            console.log(data)
             let docRef
             if (data.length === 0) {
                 docRef = await addDoc(collection(db, "users"), {
@@ -182,8 +173,6 @@ export const createUser = async (userDoc) => {
                     uid: email.split("@")[0],
                     joinedAt: new Date().getTime()
                 });
-                console.log("created userDoc with doc ID: ", docRef.id);
-
             }
             return docRef
         }
@@ -204,8 +193,6 @@ export const createChatroom = async (postId, userDoc) => {
 
         let chatroomDoc = await getDocs(q);
         let data = chatroomDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-        console.log(data)
 
         // if there is no existing chat between creator and viewer for a specific post, create one
         if (data.length === 0) {
@@ -237,15 +224,12 @@ export const updateUserChatroomIds = async (creatorEmail, viewerEmail, chatroomI
         let q = query(collection(db, "users"), where("email", "==", creatorEmail))
         let userDoc = await getDocs(q);
         let data = userDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        console.log(data)
 
         await setDoc(doc(db, "users", data[0].id), { chatroomIds: [...data[0].chatroomIds, chatroomId] }, { merge: true });
 
         let q2 = query(collection(db, "users"), where("email", "==", viewerEmail))
         let userDoc2 = await getDocs(q2);
         let data2 = userDoc2.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        console.log(data2)
-
 
         await setDoc(doc(db, "users", data2[0].id), { chatroomIds: [...data2[0].chatroomIds, chatroomId] }, { merge: true });
 
@@ -277,7 +261,6 @@ export const getOneUserProfile = async (uid) => {
 
         const res = await getDocs(q);
         let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        console.log(data[0])
 
         return data[0]
     } catch (err) {
