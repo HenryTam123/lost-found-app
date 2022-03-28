@@ -92,6 +92,7 @@ export const addPost = async (newPost = {}) => {
 
 export const updatePost = async (postId, updatedPost) => {
     try {
+        console.log(updatedPost)
         await setDoc(doc(db, "posts", postId), updatedPost, { merge: true });
 
     } catch (err) {

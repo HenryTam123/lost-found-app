@@ -67,6 +67,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
                                             className="d-block w-100"
                                             style={{ objectFit: "cover", height: "500px" }}
                                             src={url}
+                                            key={i}
                                             alt={`slide ${i + 1}`}
                                         />
                                     </Carousel.Item>
@@ -137,6 +138,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
                                             style={{ objectFit: "cover", height: "200px" }}
                                             src={url}
                                             alt={`slide ${i + 1}`}
+                                            key={i}
                                         />
                                     </Carousel.Item>
                                 ))}
