@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getPosts } from '../utilities/firestoreAPIs.js';
 import { Form, Card, Button, Badge, Container, Row, Col, Carousel, Spinner, Accordion } from 'react-bootstrap';
 import Pagination from 'react-bootstrap/Pagination';
-import Moment from 'react-moment';
 import { useNavigate } from "react-router-dom"
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PostCard from './PostCard.jsx';
 
 const Posts = () => {
@@ -15,16 +13,19 @@ const Posts = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [textQuery, setTextQuery] = useState('');
     const [categorySelected, setCateogrySelected] = useState('All');
+    const [districtSelected, setDistrictSelected] = useState('All')
     const [sortingSelected, setSortingSelected] = useState('desc');
     const [statusSelected, setStatusSelected] = useState('All');
     const navigate = useNavigate();
 
 
     let categories = ['Accessory', 'Bag', 'Book & Stationery', 'Certificate', 'Clothes', 'Electronic Product', "People", 'Pet', 'Valuables', 'Others']
+    let districts = ["Central and Western", "Eastern", "Islands", "Kowloon City", "Kwai Tsing", "Kwun Tong", "North", "Sai Kung", "Sha Tin", "Sham Shui Po", "Southern", "Tai Po", "Tsuen Wan", "Tuen Mun", "Wan Chai", "Wong Tai Sin", "Yau Tsim Mong", "Yuen Long"]
 
     let filters = {
         textQuery: textQuery,
         category: categorySelected,
+        district: districtSelected,
         status: statusSelected,
         sortBy: sortingSelected
     }
@@ -37,6 +38,7 @@ const Posts = () => {
         filters = {
             textQuery: textQuery,
             category: categorySelected,
+            district: districtSelected,
             status: statusSelected,
             sortBy: sortingSelected
         }
@@ -62,12 +64,17 @@ const Posts = () => {
         )
     }
 
-    useEffect(async () => {
-        setIsLoading(true)
-        const data = await getPosts(filters);
-        setPosts(data)
-        setTotalDocs(data[0].totalDocs)
-        setIsLoading(false)
+    useEffect( () => {
+
+        const fetchData = async () =>{
+            setIsLoading(true)
+            const data = await getPosts(filters);
+            setPosts(data)
+            setTotalDocs(data[0].totalDocs)
+            setIsLoading(false)
+        }
+
+        fetchData()
 
     }, [])
 
@@ -93,6 +100,22 @@ const Posts = () => {
                                             {categories.map((category) => {
                                                 return (
                                                     <option>{category}</option>
+
+                                                )
+                                            })}
+
+                                        </Form.Select>
+
+                                    </Form.Group>
+                                    <Form.Group id='item_districts' className='flex-1 mt-2 ' style={{ marginRight: "10px" }}>
+
+                                        <Form.Label className=" ">District</Form.Label>
+                                        <Form.Select aria-label="Default select example" value={districtSelected} onChange={e => setDistrictSelected(e.target.value)}>
+                                            <option value={"All"}>All</option>
+
+                                            {districts.map((district) => {
+                                                return (
+                                                    <option>{district}</option>
 
                                                 )
                                             })}

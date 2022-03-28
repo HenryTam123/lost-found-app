@@ -28,6 +28,8 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
         }
     }
 
+    
+
     const handleEditPost = () => {
         navigate(`/edit-form/${post.id}`)
     }
@@ -54,6 +56,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
                             <TelegramIcon className="custom-social-icon" />
                         </TelegramShareButton>
                     </div>
+                    
                 </Modal.Body>
             </Modal>
             {isDetailMode ?
@@ -88,7 +91,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
                             <Card.Title><DescriptionOutlinedIcon /> Description</Card.Title>
                             <Card.Text className='custom-post-big-text-container'>{post.description}</Card.Text>
                             <Card.Title><LocationOnOutlinedIcon /> Location</Card.Title>
-                            <Card.Text>{post.lostPlace ? post.lostPlace : 'none'}</Card.Text>
+                            <Card.Text>{post.district ? post.district + ", " : 'none'}{post.lostPlace ? post.lostPlace : 'none'}</Card.Text>
                             <Card.Title><DateRangeOutlinedIcon /> Date of Loss</Card.Title>
                             <Card.Text><Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ''}</Card.Text>
                             <Card.Title>Contact</Card.Title>
@@ -154,7 +157,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
 
                             </Card.Text>
                             {post.lostPlace && <Card.Text>
-                                <LocationOnOutlinedIcon /> Location: {post.lostPlace}
+                                <LocationOnOutlinedIcon /> Location: {post.district && post.district + ", "} {post.lostPlace}
                             </Card.Text>
                             }
                             <Card.Text className="custom-post-text-container"><DescriptionOutlinedIcon /> Description <br />{post.description}</Card.Text>

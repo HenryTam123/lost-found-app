@@ -70,6 +70,7 @@
     color: grey
 }
 
+
 .custom-chat-snap{
     height: 110px !important;
     margin: 0px !important; 
@@ -125,7 +126,13 @@
     margin: 7px 30px;
     border-radius: 5px;
     word-wrap: break-word;
+    min-width: 120px;
+    min-height: 40px;
+    position: relative;
+}
 
+.custom-chat-message-left .custom-chat-message-time{
+    color: black;
 }
 
 .custom-chat-message-right{
@@ -137,7 +144,19 @@
     margin: 7px 30px;
     border-radius: 5px;
     word-wrap: break-word;
+    min-width: 120px;
+    min-height: 40px;
+    position: relative;
 
+}
+
+
+.custom-chat-message-time{
+    color:white;
+    font-size: 4px !important;
+    position: absolute;
+    right: 10%;
+    bottom: 8%;
 }
 
 .custom-chat-inputbox{

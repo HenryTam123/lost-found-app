@@ -4,7 +4,10 @@ import Moment from 'react-moment';
 import { getChatrooms, updateChatMessage } from '../utilities/firestoreAPIs';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
+import moment from 'moment'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+let currentDay = ""
 
 const Chatroom = () => {
     const navigate = useNavigate()
@@ -14,8 +17,9 @@ const Chatroom = () => {
     const [chatrooms, setChatrooms] = useState([])
     const [currentChatroom, setCurrentChatroom] = useState()
     const [userInput, setUserInput] = useState('');
+    // const [currentDay, setCurrentDay] = useState('')
 
-    useEffect(async () => {
+    useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             let data = await getChatrooms(currentUser)
@@ -31,6 +35,7 @@ const Chatroom = () => {
     }, [])
 
     const handleSelectChatroom = (chatroom) => {
+        currentDay = ""
         setCurrentChatroom(chatroom)
         setShowLeft(false)
     }
@@ -51,6 +56,13 @@ const Chatroom = () => {
             setUserInput('')
         }
 
+    }
+
+    const renderChatRoomDay = (day) =>{
+        if(day !== currentDay){
+            currentDay = day
+            return <div className='text-center'>{currentDay}</div>
+        }
     }
 
     return (
@@ -105,7 +117,7 @@ const Chatroom = () => {
 
                             ))}
                         </Col>
-                        <Col style={{ paddingRight: "0" }} className={`${showLeft && "d-none"} d-md-flex custom-chat-right d-flex flex-column`} xs={0} sm={0} lg={8} md={7}>
+                        <Col style={{ padding:"0"}} className={`${showLeft && "d-none"} d-md-flex custom-chat-right d-flex flex-column`} xs={0} sm={0} lg={8} md={7}>
                             {!!currentChatroom &&
                                 <>
                                     <div className='custom-chat-header border-bottom border-top align-items-center'>
@@ -144,9 +156,31 @@ const Chatroom = () => {
                                     <div className='custom-chat-body flex-1 d-flex flex-column'>
                                         {currentChatroom.messages.map((message, i) => {
                                             if (message.sender === currentUser.email) {
-                                                return <div className='custom-chat-message-right' key={i}>{message.message}</div>
+
+                                                return <>
+                                                    {renderChatRoomDay(moment(message.createdAt).format('LL'))}
+                                                    <div className='custom-chat-message-right' key={i}>
+                                                        {message.message}
+                                                        <div>
+                                                            <Moment format='LT'className='custom-chat-message-time' >{message.createdAt}</Moment>
+
+                                                        </div>
+                                                    </div>
+                                                </>
+                                                
                                             } else {
-                                                return <div className='custom-chat-message-left' key={i}>{message.message}</div>
+                                                return <>
+                                                    {renderChatRoomDay(moment(message.createdAt).format('LL'))}
+
+                                                    <div className='custom-chat-message-left' key={i}>
+                                                    {message.message}
+                                                    <div>
+                                                            <Moment format='LT'className='custom-chat-message-time' >{message.createdAt}</Moment>
+
+                                                        </div>
+                                                    </div>
+                                                </>
+                                                
 
                                             }
                                         })}

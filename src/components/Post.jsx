@@ -13,12 +13,17 @@ const Post = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect(async () => {
-        setIsLoading(true)
-        let postId = location.pathname.split("/").pop();
-        const data = await getOnePost(postId);
-        setPost(data)
-        setIsLoading(false)
+    useEffect( () => {
+        const fetchData = async () =>{
+            setIsLoading(true)
+            let postId = location.pathname.split("/").pop();
+            const data = await getOnePost(postId);
+            setPost(data)
+            setIsLoading(false)
+        }
+
+        fetchData()
+        
     }, [])
 
     return (

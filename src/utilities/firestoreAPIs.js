@@ -10,21 +10,23 @@ export const getPosts = async (filters = {}) => {
         orderBy("createdAt", filters.sortBy),
     );
 
-    if (filters.category !== "All" && filters.status === "All") {
+    console.log(filters)
+
+    if (filters.category !== "All" && filters.status === "All" && filters.district === "All") {
         q1 = query(collection(db, "posts"),
             where('category', "==", filters.category),
             orderBy("createdAt", filters.sortBy)
         )
 
     }
-    else if (filters.category === "All" && filters.status !== "All") {
+    else if (filters.category === "All" && filters.status !== "All" && filters.district === "All") {
         q1 = query(collection(db, "posts"),
             where("status", "==", filters.status),
             orderBy("createdAt", filters.sortBy)
 
         )
 
-    } else if (filters.category !== "All" && filters.status !== "All") {
+    } else if (filters.category !== "All" && filters.status !== "All" && filters.district === "All") {
         q1 = query(collection(db, "posts"),
             where('category', "==", filters.category),
             where("status", "==", filters.status),
@@ -32,6 +34,34 @@ export const getPosts = async (filters = {}) => {
 
         )
 
+    }else if (filters.category !== "All" && filters.status === "All" && filters.district !== "All") {
+        q1 = query(collection(db, "posts"),
+            where('category', "==", filters.category),
+            where('district', "==", filters.district),
+            orderBy("createdAt", filters.sortBy)
+
+        )
+    }else if (filters.category === "All" && filters.status !== "All" && filters.district !== "All") {
+        q1 = query(collection(db, "posts"),
+            where("status", "==", filters.status),
+            where('district', "==", filters.district),
+            orderBy("createdAt", filters.sortBy)
+
+        )
+    }else if (filters.category !== "All" && filters.status !== "All" && filters.district !== "All") {
+        q1 = query(collection(db, "posts"),
+            where('category', "==", filters.category),
+            where("status", "==", filters.status),
+            where('district', "==", filters.district),
+            orderBy("createdAt", filters.sortBy)
+
+        )
+    }else if (filters.category === "All" && filters.status === "All" && filters.district !== "All") {
+        q1 = query(collection(db, "posts"),
+            where('district', "==", filters.district),
+            orderBy("createdAt", filters.sortBy)
+
+        )
     }
 
     const res = await getDocs(q1);

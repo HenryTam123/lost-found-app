@@ -9,7 +9,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addPost } from '../utilities/firestoreAPIs'
-
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import CategoryIcon from '@mui/icons-material/Category';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import PaidIcon from '@mui/icons-material/Paid';
 
 const OriginalForm = ({post = {}, isUpdateMode = false}) => {
     const [currentPost, setCurrentPost] = useState([]);
@@ -19,6 +27,7 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
     const [isPhoneSelected, setIsPhoneSelected] = useState(false);
     const [isEmailSelected, setIsEmailSelected] = useState(false);
     const [categorySelected, setCateogrySelected] = useState("Accessory");
+    const [districtSelected, setDistrictSelected] = useState("Islands")
     const [statusSelected, setStatusSelected] = useState(null);
     const [reward, setReward] = useState(0)
     const [description, setDescription] = useState('');
@@ -39,6 +48,7 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
     let times = [ "12:00 AM", "0:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:00 AM",
         "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"]
     let categories = ['Accessory', 'Bag', 'Book & Stationery', 'Certificate', 'Clothes', 'Electronic Product', 'People', 'Pet', 'Valuables', 'Others']
+    let districts = ["Central and Western", "Eastern", "Islands", "Kowloon City", "Kwai Tsing", "Kwun Tong", "North", "Sai Kung", "Sha Tin", "Sham Shui Po", "Southern", "Tai Po", "Tsuen Wan", "Tuen Mun", "Wan Chai", "Wong Tai Sin", "Yau Tsim Mong", "Yuen Long"]
     const renderData = (post = {}) => {
         if (!!post && !!post.contact) {
             setItemName(post.itemName);
@@ -163,7 +173,8 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                 phone: phone
             },
             lostPlace: lostPlace,
-            lostTime, lostTime,
+            district: districtSelected,
+            lostTime: lostTime,
             status: statusSelected,
             category: categorySelected,
             lost_date: date,
@@ -202,7 +213,8 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                     phone: phone
                 },
                 lostPlace: lostPlace,
-                lostTime, lostTime,
+                district: districtSelected,
+                lostTime: lostTime,
                 status: statusSelected,
                 category: categorySelected,
                 lost_date: date,
@@ -238,23 +250,41 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                 <Card.Body>
                     <Form noValidate  validated={validated} onSubmit={isUpdateMode? handleUpdatePost : handleCreatePost}>
                         <Form.Group id='item_name' className='mb-3' >
-                            <Form.Label>Name of your item <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <Form.Label>< DriveFileRenameOutlineIcon/> Name of your item <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <Form.Control type='text' placeholder='E.g. Brand ABC pencil' value={itemName} onChange={(e) => setItemName(e.target.value)} required></Form.Control>
                         </Form.Group>
                         <Form.Group id='item_description' className='mb-3' >
-                            <Form.Label>Description &#40;max. 200 words&#41; <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <Form.Label>< DescriptionOutlinedIcon/> Description &#40;max. 200 words&#41; <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <span className="custom-word-count"> {`${wordCount}/200`}</span>
                             <Form.Control as='textarea' placeholder="E.g. features of your item?" required value={description} onChange={(e) => {setDescription(e.target.value); setWordCount(countWord(e.target.value))}} style={{ reSize: "none" }} ></Form.Control>
                         </Form.Group>
                         
                         <Form.Group id='item_lost_place' className='mb-3' >
-                            <Form.Label>Where did you lose the item?  <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <Form.Label><LocationOnOutlinedIcon /> Where did you lose the item?  <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            {/* <Form.Group id='item_location_district' className='mb-3'> */}
+                            <Form.Group id='item_location_district' className='mb-3 d-flex'>
+
+                            {/* <Form.Label>District <span className="text-muted">&#40;required&#41;</span></Form.Label> */}
+                            <Form.Select aria-label="Default select example" style={{width:"200px", marginRight:"5px"}} value={districtSelected} onChange={e => setDistrictSelected(e.target.value)}>
+                                <option disabled>Select district here</option>
+
+                                {districts.map((district, i) => {
+                                    return (
+                                        <option key={i}>{district}</option>
+
+                                    )
+                                })}
+
+                            </Form.Select>
+                      
                             <Form.Control type='text' placeholder="E.g. TKO Mtr Station" required value={lostPlace} onChange={(e) => setLostPlace(e.target.value)}></Form.Control>
+                            </Form.Group>
+ 
                         </Form.Group>
-                        <Form.Label>When did you lose your item?</Form.Label>
+                        <Form.Label>< DateRangeOutlinedIcon/> When did you lose your item?</Form.Label>
                         <Form.Group id='item_lost_time_date' className='mb-3' >
                             <Form.Label>Date<span className="text-muted"> &#40;required&#41;</span></Form.Label>
-                            <DatePicker className="form-control" required selected={date} onChange={(date) => setDate(date)} />
+                            <DatePicker className="form-control" required selected={date} onChange={(date) => setDate(date)} maxDate={new Date()} />
                         </Form.Group>
                         <Form.Group id='item_lost_time_time' className='mb-3'>
                             <Form.Label>Time<span className="text-muted"> &#40;required&#41;</span></Form.Label>
@@ -272,7 +302,7 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                         </Form.Group>
 
                         <Form.Group id='contact' className='mb-3' >
-                            <Form.Label>Contact Method <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <Form.Label>< LocalPhoneOutlinedIcon /> Contact Method <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <Form.Check type={'checkbox'} required >
                                 <Form.Check.Input checked={isPhoneSelected} type={'checkbox'} required onChange={(e) => setIsPhoneSelected(e.target.checked)} />
                                 <Form.Check.Label>{`Phone number`}</Form.Check.Label>
@@ -281,8 +311,6 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                                    <Form.Control type='text' placeholder='E.g. 9876 5432' required value={phone} onChange={(e) => setPhone(e.target.value)} ></Form.Control>
                                     <Form.Control.Feedback type="invalid">Please provide a valid phone number.</Form.Control.Feedback> 
                                     </>
-                                 
-
                                 }
 
                             </Form.Check>
@@ -301,7 +329,7 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
                         </Form.Group>
 
                         <Form.Group id='item_category' className='mb-3'>
-                            <Form.Label>Category <span className="text-muted">&#40;optional&#41;</span></Form.Label>
+                            <Form.Label><CategoryIcon /> Category <span className="text-muted">&#40;optional&#41;</span></Form.Label>
                             <Form.Select aria-label="Default select example" value={categorySelected} onChange={e => setCateogrySelected(e.target.value)}>
                                 <option disabled>Select category here</option>
 
@@ -314,8 +342,8 @@ const OriginalForm = ({post = {}, isUpdateMode = false}) => {
 
                             </Form.Select>
                         </Form.Group>
-                        <Form.Group id='item_name' className='mb-3' >
-                            <Form.Label>Reward <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                        <Form.Group id='item_reward' className='mb-3' >
+                            <Form.Label><PaidIcon/> Reward <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <div className="d-flex">
                                 <Form.Control type="text" style={{ marginRight: "5px", width: "60px" }} value={"HKD"} disabled></Form.Control>
                                 <Form.Control type='text' placeholder='0' required value={reward} onChange={(e) => setReward(e.target.value)} pattern="^[0-9]*$"></Form.Control>
