@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { addPost } from '../utilities/firestoreAPIs'
 
 
-const OriginalForm = (post = {}, isUpdateMode = false) => {
+const OriginalForm = ({post = {}, isUpdateMode = false}) => {
     const [currentPost, setCurrentPost] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [images, setImages] = useState([]);
@@ -22,18 +22,21 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
     const [statusSelected, setStatusSelected] = useState(null);
     const [reward, setReward] = useState(0)
     const [description, setDescription] = useState('');
-    const [email, setEmail] = useState(null);
-    const [phone, setPhone] = useState(null);
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [itemName, setItemName] = useState('')
     const [lostPlace, setLostPlace] = useState('')
-    const [lostTime, setLostTime] = useState('')
+    const [lostTime, setLostTime] = useState("12:00 AM")
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [wordCount, setWordCount] = useState(0)
+    const [validated, setValidated] = useState(false);
+
 
     const location = useLocation();
     const navigate = useNavigate();
-    let times = ["12:00 AM", "0:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:00 AM",
+    let times = [ "12:00 AM", "0:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:00 AM",
         "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"]
     let categories = ['Accessory', 'Bag', 'Book & Stationery', 'Certificate', 'Clothes', 'Electronic Product', 'People', 'Pet', 'Valuables', 'Others']
     const renderData = (post = {}) => {
@@ -60,7 +63,7 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
         handleUploadImage();
     }, [images])
 
-    useEffect(async () => {
+    useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             let postId = location.pathname.split("/").pop();
@@ -77,6 +80,13 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
         }
     }, [])
 
+    const countWord = (text) =>{
+        if(text){
+            return text.match(/[\u00ff-\uffff]|\S+/g).length || 0
+
+        }
+        return 0
+    }
 
     const handleChange = (e) => {
         if (e.target.files.length + urls.length > 5) {
@@ -102,14 +112,14 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
             uploadTask.on(
                 "state_changed",
                 (snapshot) => {
-                    const progress = Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
+                    
                     switch (snapshot.state) {
                         case 'paused':
                             break;
                         case 'running':
                             break;
+                        default:
+                            console.log("fine")
                     }
                 },
                 (error) => {
@@ -132,8 +142,17 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
     }
 
     const handleUpdatePost = async (e) => {
-        e.preventDefault()
-        let newPost = {
+
+        const form = e.currentTarget;
+        e.preventDefault();
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+        }
+
+        setValidated(true);
+
+        if (form.checkValidity() === true) {
+                    let newPost = {
             creator: currentUser.displayName,
             creatorEmail: currentUser.email,
             itemName: itemName,
@@ -155,31 +174,46 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
         let res = await updatePost(currentPost.id, newPost)
         alert("Your item is updated successfully")
         navigate('/your-listing')
+        }
+
     }
 
     const handleCreatePost = async (e) => {
-        e.preventDefault()
-        let newPost = {
-            creator: currentUser.displayName,
-            creatorEmail: currentUser.email,
-            itemName: itemName,
-            description: description,
-            imageUrls: urls,
-            contact: {
-                email: email,
-                phone: phone
-            },
-            lostPlace: lostPlace,
-            lostTime, lostTime,
-            status: statusSelected,
-            category: categorySelected,
-            lost_date: date,
-            reward: reward
+
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            console.log("run")
+
+            e.preventDefault();
+            e.stopPropagation();
         }
 
-        let res = await addPost(newPost)
-        alert("Your item is posted successfully")
-        navigate('/posts')
+        setValidated(true);
+
+        if(form.checkValidity() === true){
+            let newPost = {
+                creator: currentUser.displayName,
+                creatorEmail: currentUser.email,
+                itemName: itemName,
+                description: description,
+                imageUrls: urls,
+                contact: {
+                    email: email,
+                    phone: phone
+                },
+                lostPlace: lostPlace,
+                lostTime, lostTime,
+                status: statusSelected,
+                category: categorySelected,
+                lost_date: date,
+                reward: reward
+            }
+    
+            let res = await addPost(newPost)
+            alert("Your item is posted successfully")
+            navigate('/posts')
+        }
+
     }
     return (
         <div className='d-flex flex-wrap'>
@@ -202,21 +236,27 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
 
             <Card className=" shadow border w-100 m-2" style={{ flex: "1", minWidth: "200px" }}>
                 <Card.Body>
-                    <Form >
+                    <Form noValidate  validated={validated} onSubmit={isUpdateMode? handleUpdatePost : handleCreatePost}>
                         <Form.Group id='item_name' className='mb-3' >
                             <Form.Label>Name of your item <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <Form.Control type='text' placeholder='E.g. Brand ABC pencil' value={itemName} onChange={(e) => setItemName(e.target.value)} required></Form.Control>
                         </Form.Group>
                         <Form.Group id='item_description' className='mb-3' >
-                            <Form.Label>Description <span className="text-muted">&#40;required&#41;</span></Form.Label>
-                            <Form.Control as='textarea' placeholder="E.g. Where did you lose the item?" required value={description} onChange={(e) => setDescription(e.target.value)} style={{ reSize: "none" }} ></Form.Control>
+                            <Form.Label>Description &#40;max. 200 words&#41; <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <span className="custom-word-count"> {`${wordCount}/200`}</span>
+                            <Form.Control as='textarea' placeholder="E.g. features of your item?" required value={description} onChange={(e) => {setDescription(e.target.value); setWordCount(countWord(e.target.value))}} style={{ reSize: "none" }} ></Form.Control>
+                        </Form.Group>
+                        
+                        <Form.Group id='item_lost_place' className='mb-3' >
+                            <Form.Label>Where did you lose the item?  <span className="text-muted">&#40;required&#41;</span></Form.Label>
+                            <Form.Control type='text' placeholder="E.g. TKO Mtr Station" required value={lostPlace} onChange={(e) => setLostPlace(e.target.value)}></Form.Control>
                         </Form.Group>
                         <Form.Label>When did you lose your item?</Form.Label>
-                        <Form.Group id='item_description' className='mb-3' >
+                        <Form.Group id='item_lost_time_date' className='mb-3' >
                             <Form.Label>Date<span className="text-muted"> &#40;required&#41;</span></Form.Label>
                             <DatePicker className="form-control" required selected={date} onChange={(date) => setDate(date)} />
                         </Form.Group>
-                        <Form.Group id='item_lost_time' className='mb-3'>
+                        <Form.Group id='item_lost_time_time' className='mb-3'>
                             <Form.Label>Time<span className="text-muted"> &#40;required&#41;</span></Form.Label>
                             <Form.Select aria-label="Default select example" value={lostTime} onChange={e => setLostTime(e.target.value)} required>
                                 <option disabled>Select Time here</option>
@@ -231,26 +271,31 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
                             </Form.Select>
                         </Form.Group>
 
-                        <Form.Group id='item_lost_place' className='mb-3' >
-                            <Form.Label>Where did you lose the item?  <span className="text-muted">&#40;required&#41;</span></Form.Label>
-                            <Form.Control type='text' placeholder="E.g. TKO Mtr Station" required value={lostPlace} onChange={(e) => setLostPlace(e.target.value)}></Form.Control>
-                        </Form.Group>
-
                         <Form.Group id='contact' className='mb-3' >
                             <Form.Label>Contact Method <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <Form.Check type={'checkbox'} required >
-                                <Form.Check.Input checked={isPhoneSelected} type={'checkbox'} isValid onChange={(e) => setIsPhoneSelected(e.target.checked)} />
+                                <Form.Check.Input checked={isPhoneSelected} type={'checkbox'} required onChange={(e) => setIsPhoneSelected(e.target.checked)} />
                                 <Form.Check.Label>{`Phone number`}</Form.Check.Label>
                                 {isPhoneSelected &&
-                                    <Form.Control type='text' placeholder='E.g. 9876 5432' value={phone} onChange={(e) => setPhone(e.target.value)} ></Form.Control>
+                                <>
+                                   <Form.Control type='text' placeholder='E.g. 9876 5432' required value={phone} onChange={(e) => setPhone(e.target.value)} ></Form.Control>
+                                    <Form.Control.Feedback type="invalid">Please provide a valid phone number.</Form.Control.Feedback> 
+                                    </>
+                                 
+
                                 }
 
                             </Form.Check>
                             <Form.Check type={'checkbox'} >
-                                <Form.Check.Input checked={isEmailSelected} type={'checkbox'} isValid onChange={(e) => setIsEmailSelected(e.target.checked)} />
+                                <Form.Check.Input checked={isEmailSelected} required type={'checkbox'} onChange={(e) => setIsEmailSelected(e.target.checked)} />
                                 <Form.Check.Label>{`Email`}</Form.Check.Label>
                                 {isEmailSelected &&
-                                    <Form.Control type='email' placeholder='E.g. jason123@gmail.com' value={email} onChange={(e) => setEmail(e.target.value)} ></Form.Control>}
+                                    <>
+                                    <Form.Control type='email' placeholder='E.g. jason123@gmail.com' required value={email} onChange={(e) => setEmail(e.target.value)} pattern=".+@gmail\.com"></Form.Control>
+                                    <Form.Control.Feedback type="invalid">Please provide a valid gmail.</Form.Control.Feedback> 
+                                    </>
+                                    
+                                }
                             </Form.Check>
 
                         </Form.Group>
@@ -273,7 +318,9 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
                             <Form.Label>Reward <span className="text-muted">&#40;required&#41;</span></Form.Label>
                             <div className="d-flex">
                                 <Form.Control type="text" style={{ marginRight: "5px", width: "60px" }} value={"HKD"} disabled></Form.Control>
-                                <Form.Control type='text' placeholder='0' value={reward} onChange={(e) => setReward(e.target.value)} required></Form.Control>
+                                <Form.Control type='text' placeholder='0' required value={reward} onChange={(e) => setReward(e.target.value)} pattern="^[0-9]*$"></Form.Control>
+                                {/* <Form.Control.Feedback type="invalid">Please input number only.</Form.Control.Feedback>  */}
+
                             </div>                                        </Form.Group>
                         <Form.Group id='item_status' className='mb-3'>
                             <Form.Label>Status</Form.Label>
@@ -283,14 +330,8 @@ const OriginalForm = (post = {}, isUpdateMode = false) => {
                                 <option value={"found"}>Found</option>
                             </Form.Select>
                         </Form.Group>
-                        {isUpdateMode ?
-                            <Button type="submit" disabled={loading} className='w-100 mt-4 cursor-pointer' onClick={handleUpdatePost}>Update</Button>
-                            :
-                            <Button type="submit" disabled={loading} className='w-100 mt-4 cursor-pointer' onClick={handleCreatePost}>Create</Button>
-
-                        }
-
-
+                        
+                            <Button type="submit" disabled={loading} className='w-100 mt-4 cursor-pointer' >{isUpdateMode? "Update" : "Create"}</Button>
                     </Form>
 
                 </Card.Body>

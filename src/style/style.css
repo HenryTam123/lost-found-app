@@ -58,6 +58,18 @@
 
 }
 
+#item_description{
+    position: relative;
+}
+
+#item_description .custom-word-count{
+    position: absolute;
+    bottom: 1%;
+    right: 2%;
+    font-size: 13px;
+    color: grey
+}
+
 .custom-chat-snap{
     height: 110px !important;
     margin: 0px !important; 
