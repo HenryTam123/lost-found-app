@@ -1,9 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getPosts } from "../utilities/firestoreAPIs.js";
-import { Form, Card, Button, Badge, Container, Row, Col, Carousel, Spinner, Accordion } from "react-bootstrap";
+import {
+  Form,
+  Card,
+  Button,
+  Badge,
+  Container,
+  Row,
+  Col,
+  Carousel,
+  Spinner,
+  Accordion,
+  InputGroup,
+} from "react-bootstrap";
 import Pagination from "react-bootstrap/Pagination";
 import { useNavigate } from "react-router-dom";
 import PostCard from "./PostCard.jsx";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -77,8 +90,8 @@ const Posts = () => {
 
     let filteredData = data.filter(
       (d) =>
-        d.itemName.toLowerCase().includes(textQuery.toLowerCase()) &&
-        d.lostPlace.toLowerCase().includes(textLocationQuery.toLowerCase())
+        d.itemName.toLowerCase().includes(textQuery.toLowerCase()) ||
+        d.lostPlace.toLowerCase().includes(textQuery.toLowerCase())
     );
 
     setPosts(filteredData);
@@ -112,8 +125,24 @@ const Posts = () => {
       <Container>
         <h4 className="mt-2 py-2 custom-label">Posts</h4>
       </Container>
+
       <Container className="container d-flex flex-wrap my-2 justify-content-center">
         <Row className="w-100">
+          <Form onSubmit={(e) => handleSearch(e)} style={{ padding: "0" }}>
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="search_label" className="bg-white border-none">
+                <SearchIcon />
+              </InputGroup.Text>
+              <Form.Control
+                type="text"
+                className="border-none"
+                placeholder="Search location or name of item"
+                value={textQuery}
+                onChange={(e) => setTextQuery(e.target.value)}
+              />{" "}
+            </InputGroup>
+          </Form>
+
           <Accordion className=" accordion">
             <Accordion.Item eventKey="0" className="shadow-sm">
               <Accordion.Header>Filters</Accordion.Header>
@@ -156,8 +185,8 @@ const Posts = () => {
                     >
                       <option value={"All"}>All</option>
 
-                      <option value={"found"}>Found</option>
-                      <option value={"not_found"}>Not Found Yet</option>
+                      <option value={"Found"}>Found</option>
+                      <option value={"Not Found Yet"}>Not Found Yet</option>
                     </Form.Select>
                   </Form.Group>
                   <Form.Group id="item_sort " className="flex-1 mt-2" style={{ marginRight: "10px" }}>
@@ -171,17 +200,7 @@ const Posts = () => {
                       <option value={"asc"}>Created Date &#40;oldest on top&#41;</option>
                     </Form.Select>
                   </Form.Group>
-
-                  <Form.Group id="item_name" className="ml-3  mt-2">
-                    <Form.Label>Search by name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="E.g. Brand ABC pencil"
-                      value={textQuery}
-                      onChange={(e) => setTextQuery(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-                  <Form.Group id="item_location" className="ml-3 mt-2">
+                  {/* <Form.Group id="item_location" className="ml-3 mt-2">
                     <Form.Label>Search by Location</Form.Label>
                     <Form.Control
                       type="text"
@@ -189,7 +208,7 @@ const Posts = () => {
                       value={textLocationQuery}
                       onChange={(e) => setTextLocationQuery(e.target.value)}
                     ></Form.Control>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Button className="mt-3" onClick={(e) => handleSearch(e)}>
                     Search
                   </Button>
@@ -207,8 +226,8 @@ const Posts = () => {
           </div>
         ) : (
           <>
-            <Row className="w-100">
-              {!!posts ? (
+            <Row className="w-100" style={{ minHeight: "90vh" }}>
+              {posts.length !== 0 ? (
                 posts.map((post, i) => {
                   if (i + 1 > (currentPage - 1) * postPerPage && i + 1 <= currentPage * postPerPage) {
                     return <PostCard post={post} key={i} />;
@@ -216,7 +235,7 @@ const Posts = () => {
                   return;
                 })
               ) : (
-                <div>NO LISTING</div>
+                <div className="text-center mt-3">NO LISTING</div>
               )}
             </Row>
             <Pagination className="mt-3">

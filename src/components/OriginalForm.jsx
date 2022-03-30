@@ -442,6 +442,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                       type="text"
                       placeholder="E.g. 9876 5432"
                       required
+                      pattern="^[0-9]+$"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     ></Form.Control>
@@ -465,7 +466,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      pattern=".+@.+\.com"
+                      pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}"
                     ></Form.Control>
                     <Form.Control.Feedback type="invalid">Please provide a valid email.</Form.Control.Feedback>
                   </>

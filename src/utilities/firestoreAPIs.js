@@ -229,6 +229,7 @@ export const createChatroom = async (postId, userDoc) => {
         if (data.length === 0) {
             const docRef = await addDoc(collection(db, "chatrooms"), {
                 createdAt: new Date().getTime(),
+                updatedAt: new Date().getTime(),
                 postId: postId,
                 postTitle: post.itemName,
                 postThumb: post.imageUrls[0],

@@ -48,7 +48,9 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
 
   const handleInbox = async (postId) => {
     await createChatroom(postId, currentUser);
-    navigate(`/chatroom`);
+    navigate(`/chatroom`, {
+      state: { postId: postId, creatorEmail: post.creatorEmail, viewerEmail: currentUser.email },
+    });
   };
   const navigate = useNavigate();
   return (

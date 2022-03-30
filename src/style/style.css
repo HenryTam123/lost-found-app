@@ -1,3 +1,7 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .custom-bg-primary {
   background-color: rgb(173, 99, 255) !important;
   border-color: rgb(173, 99, 255) !important;
@@ -122,7 +126,8 @@
   border-radius: 5px;
   word-wrap: break-word;
   min-width: 120px;
-  min-height: 40px;
+  padding-bottom: 18px;
+
   position: relative;
 }
 
@@ -140,16 +145,16 @@
   border-radius: 5px;
   word-wrap: break-word;
   min-width: 120px;
-  min-height: 40px;
   position: relative;
+  padding-bottom: 18px;
 }
 
 .custom-chat-message-time {
   color: white;
   font-size: 12px !important;
   position: absolute;
-  right: 10%;
-  bottom: 8%;
+  right: 8%;
+  bottom: 4%;
 }
 
 .custom-chat-inputbox {
