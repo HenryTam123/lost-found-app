@@ -26,7 +26,7 @@ function App() {
           <AuthProvider>
             <Header />
             <Container  >
-              <CustomToast />
+              {/* <CustomToast /> */}
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 {/* <Route path="/signup" element={<SignUp />} /> */}

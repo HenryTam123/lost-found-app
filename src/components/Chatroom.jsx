@@ -9,6 +9,7 @@ import moment from "moment";
 import ImageIcon from "@mui/icons-material/Image";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { storage } from "../firebase-config";
+import emailjs from "@emailjs/browser";
 
 let currentDay = "";
 
@@ -65,6 +66,8 @@ const Chatroom = ({ props }) => {
     setShowLeft(false);
   };
 
+  console.log(currentChatroom, currentUser);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (userInput !== "") {
@@ -79,6 +82,7 @@ const Chatroom = ({ props }) => {
       setChatrooms(data);
       setCurrentChatroom(data[0]);
       setUserInput("");
+      await sendEmail({ message: userInput });
     }
   };
 
@@ -108,6 +112,19 @@ const Chatroom = ({ props }) => {
       newImage["id"] = Math.random();
       setImages((prevState) => [...prevState, newImage]);
     }
+  };
+
+  const sendEmail = async ({ isImageSent = false, message = "" }) => {
+    let { postCreatorEmail, postCreator, postViewer, postViewerEmail } = currentChatroom;
+
+    let templateParams = {
+      to_name: postViewer === currentUser.displayName ? postCreator : postViewer,
+      from_name: currentUser.displayName,
+      message: isImageSent ? "Photo preview is not available" : message,
+      receiverEmail: postViewerEmail === currentUser.email ? postCreatorEmail : postViewerEmail,
+    };
+
+    return await emailjs.send("service_ogf0vd8", "template_o0fzq4k", templateParams, "Qj4Ix9Kr-T8s58Ruk");
   };
 
   useEffect(() => {
@@ -157,6 +174,7 @@ const Chatroom = ({ props }) => {
             setCurrentChatroom(data[0]);
             setUserInput("");
             setUrls([]);
+            await sendEmail({ message: "[photo]" });
           });
         }
       );
