@@ -20,6 +20,18 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.35) !important;
 }
 
+.custom-input-field{
+  border: none;
+  word-wrap: break-word;      /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;      /* current browsers */
+  overflow-wrap: break-word;
+
+}
+.custom-input-field:focus{
+  outline: none;
+}
+
 .custom-personal-icon {
   border-radius: 50%;
   height: 30px;
@@ -113,8 +125,12 @@
 }
 .custom-chat-inputbox {
   width: 100% !important;
-  height: 70px !important;
+  /* height: 70px !important; */
   background-color: white;
+}
+
+.custom-input-image{
+  height: 40px !important;
 }
 
 .custom-chat-message-left {

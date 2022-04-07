@@ -2,7 +2,28 @@ import {
     collection, doc, addDoc, getDocs, setDoc, deleteDoc, query,
     where, orderBy, documentId
 } from "firebase/firestore";
-import { db } from '../firebase-config';
+import {getToken, onMessage} from 'firebase/messaging'
+import { db, messaging } from '../firebase-config';
+
+export const getCurrentToken = async (setTokenFound)=>{
+    return getToken(messaging, {vapidKey: 'GENERATED_MESSAGING_KEY'}).then((currentToken) => {
+        if (currentToken) {
+          console.log('current token for client: ', currentToken);
+          // Track the token -> client mapping, by sending to backend server
+          // show on the UI that permission is secured
+          setTokenFound(true);
+
+        } else {
+            setTokenFound(false);
+
+          console.log('No registration token available. Request permission to generate one.');
+          // shows on the UI that permission is required 
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        // catch error while creating client token
+      });
+}
 
 export const getPosts = async (filters = {}) => {
 
@@ -10,7 +31,7 @@ export const getPosts = async (filters = {}) => {
         orderBy("createdAt", filters.sortBy),
     );
 
-    console.log(filters)
+    // console.log(filters)
 
     if (filters.category !== "All" && filters.status === "All" && filters.district === "All") {
         q1 = query(collection(db, "posts"),
@@ -122,7 +143,7 @@ export const addPost = async (newPost = {}) => {
 
 export const updatePost = async (postId, updatedPost) => {
     try {
-        console.log(updatedPost)
+        // console.log(updatedPost)
         await setDoc(doc(db, "posts", postId), updatedPost, { merge: true });
 
     } catch (err) {
@@ -241,7 +262,7 @@ export const createChatroom = async (postId, userDoc) => {
                 postViewPhoto: userDoc.photoURL,
                 messages: []
             });
-            console.log("created chatroom with doc ID: ", docRef.id);
+            // console.log("created chatroom with doc ID: ", docRef.id);
             await updateUserChatroomIds(post.creatorEmail, userDoc.email, docRef.id)
         }
 

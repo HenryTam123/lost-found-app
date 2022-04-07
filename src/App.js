@@ -15,6 +15,7 @@ import Chatroom from './components/Chatroom'
 import Profile from './components/Profile';
 import Logout from './components/Logout';
 import PageNotFound from './components/PageNotFound';
+import CustomToast from './components/CustomToast';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <AuthProvider>
             <Header />
             <Container  >
+              <CustomToast />
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 {/* <Route path="/signup" element={<SignUp />} /> */}

@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Container, Spinner } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Form, Row, Col, Container, Spinner, Toast, Image } from "react-bootstrap";
 import Moment from "react-moment";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getChatrooms, updateChatMessage } from "../utilities/firestoreAPIs";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import moment from "moment";
+import ImageIcon from "@mui/icons-material/Image";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { storage } from "../firebase-config";
 
 let currentDay = "";
 
 const Chatroom = ({ props }) => {
   const navigate = useNavigate();
   const [showLeft, setShowLeft] = useState(true);
+  const [images, setImages] = useState([]);
   const { currentUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [chatrooms, setChatrooms] = useState([]);
   const [currentChatroom, setCurrentChatroom] = useState();
   const [userInput, setUserInput] = useState("");
+  const [urls, setUrls] = useState([]);
+
   // const [currentDay, setCurrentDay] = useState('')
 
   const { state } = useLocation();
-
-  console.log(state);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +40,6 @@ const Chatroom = ({ props }) => {
               state.creatorEmail === d.postCreatorEmail &&
               state.viewerEmail === d.postViewerEmail
           );
-          console.log(removedChatroom);
           data = data.filter(
             (d) =>
               d.postId !== state.postId ||
@@ -72,7 +75,6 @@ const Chatroom = ({ props }) => {
       };
       await updateChatMessage(currentChatroom.id, newMessage);
       let data = await getChatrooms(currentUser);
-      console.log(data);
       data.sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
       setChatrooms(data);
       setCurrentChatroom(data[0]);
@@ -85,6 +87,86 @@ const Chatroom = ({ props }) => {
       currentDay = day;
       return <div className="text-center">{currentDay}</div>;
     }
+  };
+
+  const hiddenFileInput = React.useRef(null);
+
+  // Programatically click the hidden file input element
+  // when the Button component is clicked
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
+  };
+  // Call a function (passed as a prop from the parent component)
+  // to handle the user-selected file
+  const handleChange = (e) => {
+    if (e.target.files.length + urls.length > 5) {
+      alert("You can only choose a maximm of FIVE photos");
+      return;
+    }
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
+    }
+  };
+
+  useEffect(() => {
+    handleUploadImage();
+  }, [images]);
+
+  const handleUploadImage = async () => {
+    const promises = [];
+    let photoUrls = [];
+    if (images.length === 0) return;
+
+    images.map((image) => {
+      const storageRef = ref(storage, `images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image, {
+        contentType: "image/jpeg",
+      });
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          switch (snapshot.state) {
+            case "paused":
+              break;
+            case "running":
+              break;
+            default:
+            // console.log("fine");
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (urls) => {
+            console.log(urls);
+
+            let newMessage = {
+              createdAt: new Date().getTime(),
+              message: "",
+              sender: currentUser.email,
+              image: urls,
+            };
+            await updateChatMessage(currentChatroom.id, newMessage);
+            let data = await getChatrooms(currentUser);
+            data.sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
+            setChatrooms(data);
+            setCurrentChatroom(data[0]);
+            setUserInput("");
+            setUrls([]);
+          });
+        }
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        console.log(photoUrls);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -240,7 +322,13 @@ const Chatroom = ({ props }) => {
                           <>
                             {renderChatRoomDay(moment(message.createdAt).format("LL"))}
                             <div className="custom-chat-message-right" key={i}>
-                              {message.message}
+                              {message.message !== "" ? (
+                                message.message
+                              ) : (
+                                <a href={message.image} target="_blank">
+                                  <Image height={40} src={message.image} />
+                                </a>
+                              )}
                               <div>
                                 <Moment format="LT" className="custom-chat-message-time">
                                   {message.createdAt}
@@ -255,7 +343,13 @@ const Chatroom = ({ props }) => {
                             {renderChatRoomDay(moment(message.createdAt).format("LL"))}
 
                             <div className="custom-chat-message-left" key={i}>
-                              <div>{message.message}</div>
+                              {message.message !== "" ? (
+                                message.message
+                              ) : (
+                                <a href={message.image} target="_blank">
+                                  <Image height={40} src={message.image} />
+                                </a>
+                              )}
                               <div>
                                 <Moment format="LT" className="custom-chat-message-time">
                                   {message.createdAt}
@@ -267,16 +361,38 @@ const Chatroom = ({ props }) => {
                       }
                     })}
                   </div>
-                  <div className="custom-chat-inputbox border-top">
-                    <Form onSubmit={handleSubmit}>
-                      <Form.Control
+                  <div className="custom-chat-inputbox border-top d-flex align-items-center">
+                    <Form
+                      onSubmit={(e) => handleSubmit(e)}
+                      className="d-flex align-items-center justify-content-between w-100"
+                    >
+                      {/* {!!urls &&
+                        urls.map((url) => {
+                          return (
+                            <Image className="m-1 custom-input-image" src={url} style={{ height: "100px" }}></Image>
+                          );
+                        })} */}
+                      <input
                         type="text"
                         placeholder="Input here.."
                         value={userInput}
+                        style={{ border: "none" }}
                         onChange={(e) => {
                           setUserInput(e.target.value);
                         }}
-                      ></Form.Control>
+                        className="custom-input-field w-100"
+                      />
+
+                      <>
+                        <ImageIcon onClick={handleClick} className="cursor-pointer" />
+                        <input
+                          type="file"
+                          ref={hiddenFileInput}
+                          onChange={handleChange}
+                          style={{ display: "none" }}
+                          accept="image/*"
+                        />
+                      </>
                     </Form>
                   </div>
                 </>

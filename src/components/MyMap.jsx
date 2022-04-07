@@ -38,7 +38,6 @@ function MyMap({
   post = {},
 }) {
   //   const [markerLatLng, setMarkerLatLng] = useState([]);
-  console.log(markerLatLng);
   // const [markerAddress, setMarkerAddress] = useState("");
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
@@ -47,7 +46,6 @@ function MyMap({
   });
 
   const onMapClick = useCallback(async (e) => {
-    console.log(e);
     const result = await getGeocode({ location: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
 
     setMarkerLatLng({ lat: e.latLng.lat(), lng: e.latLng.lng(), time: new Date() });
@@ -64,7 +62,7 @@ function MyMap({
     mapRef.current.setZoom(16);
   }, []);
 
-  console.log(markerLatLng);
+  // console.log(markerLatLng);
 
   if (loadError) return "Error Loading maps";
   if (!isLoaded) return "Loading Maps";
@@ -133,7 +131,6 @@ function Search({ panTo, setMarkerLatLng, markerAddress, setMarkerAddress, post 
       //   }
       // }}
       onSelect={async (address) => {
-        console.log(address);
         setValue(address, false);
         setMarkerAddress(address);
         clearSuggestions();
@@ -142,7 +139,6 @@ function Search({ panTo, setMarkerLatLng, markerAddress, setMarkerAddress, post 
           const { lat, lng } = await getLatLng(result[0]);
           panTo({ lat, lng });
           setMarkerLatLng({ lat, lng });
-          console.log(lat, lng);
         } catch (err) {
           console.log(err);
         }
@@ -157,7 +153,6 @@ function Search({ panTo, setMarkerLatLng, markerAddress, setMarkerAddress, post 
           setMarkerAddress(e.target.value);
 
           setValue(e.target.value);
-          console.log(e);
         }}
         disabled={!ready}
         placeholder="Enter an address"

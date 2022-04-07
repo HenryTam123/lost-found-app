@@ -91,7 +91,8 @@ const Posts = () => {
     let filteredData = data.filter(
       (d) =>
         d.itemName.toLowerCase().includes(textQuery.toLowerCase()) ||
-        d.lostPlace.toLowerCase().includes(textQuery.toLowerCase())
+        d.lostPlace.toLowerCase().includes(textQuery.toLowerCase()) ||
+        d.description.toLowerCase().includes(textQuery.toLowerCase())
     );
 
     setPosts(filteredData);
@@ -136,7 +137,7 @@ const Posts = () => {
               <Form.Control
                 type="text"
                 className="border-none"
-                placeholder="Search location or name of item"
+                placeholder="Search location, description orname of item"
                 value={textQuery}
                 onChange={(e) => setTextQuery(e.target.value)}
               />{" "}

@@ -19,6 +19,90 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import PaidIcon from "@mui/icons-material/Paid";
 import MyMap from "./MyMap";
 
+let times = [
+  "12:00 AM",
+  "0:30 AM",
+  "1:00 AM",
+  "1:30 AM",
+  "2:00 AM",
+  "2:30 AM",
+  "3:00 AM",
+  "3:30 AM",
+  "4:00 AM",
+  "4:30 AM",
+  "5:00 AM",
+  "5:30 AM",
+  "6:00 AM",
+  "6:30 AM",
+  "7:00 AM",
+  "7:30 AM",
+  "8:00 AM",
+  "8:30 AM",
+  "9:00 AM",
+  "9:30 AM",
+  "10:00 AM",
+  "10:30 AM",
+  "11:00 AM",
+  "11:30 AM",
+  "12:00 PM",
+  "12:00 AM",
+  "12:30 PM",
+  "1:00 PM",
+  "1:30 PM",
+  "2:00 PM",
+  "2:30 PM",
+  "3:00 PM",
+  "3:30 PM",
+  "4:00 PM",
+  "4:30 PM",
+  "5:00 PM",
+  "5:30 PM",
+  "6:00 PM",
+  "6:30 PM",
+  "7:00 PM",
+  "7:30 PM",
+  "8:00 PM",
+  "8:30 PM",
+  "9:00 PM",
+  "9:30 PM",
+  "10:00 PM",
+  "10:30 PM",
+  "11:00 PM",
+  "11:30 PM",
+];
+let categories = [
+  "Accessory",
+  "Bag",
+  "Book & Stationery",
+  "Certificate",
+  "Clothes",
+  "Electronic Product",
+  "People",
+  "Pet",
+  "Valuables",
+  "Others",
+];
+let districts = [
+  "Central and Western",
+  "Eastern",
+  "Islands",
+  "Kowloon City",
+  "Kwai Tsing",
+  "Kwun Tong",
+  "North",
+  "Sai Kung",
+  "Sha Tin",
+  "Sham Shui Po",
+  "Southern",
+  "Tai Po",
+  "Tsuen Wan",
+  "Tuen Mun",
+  "Wan Chai",
+  "Wong Tai Sin",
+  "Yau Tsim Mong",
+  "Yuen Long",
+];
+
 const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
   const [currentPost, setCurrentPost] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,89 +130,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  let times = [
-    "12:00 AM",
-    "0:30 AM",
-    "1:00 AM",
-    "1:30 AM",
-    "2:00 AM",
-    "2:30 AM",
-    "3:00 AM",
-    "3:30 AM",
-    "4:00 AM",
-    "4:30 AM",
-    "5:00 AM",
-    "5:30 AM",
-    "6:00 AM",
-    "6:30 AM",
-    "7:00 AM",
-    "7:30 AM",
-    "8:00 AM",
-    "8:30 AM",
-    "9:00 AM",
-    "9:30 AM",
-    "10:00 AM",
-    "10:30 AM",
-    "11:00 AM",
-    "11:30 AM",
-    "12:00 PM",
-    "12:00 AM",
-    "12:30 PM",
-    "1:00 PM",
-    "1:30 PM",
-    "2:00 PM",
-    "2:30 PM",
-    "3:00 PM",
-    "3:30 PM",
-    "4:00 PM",
-    "4:30 PM",
-    "5:00 PM",
-    "5:30 PM",
-    "6:00 PM",
-    "6:30 PM",
-    "7:00 PM",
-    "7:30 PM",
-    "8:00 PM",
-    "8:30 PM",
-    "9:00 PM",
-    "9:30 PM",
-    "10:00 PM",
-    "10:30 PM",
-    "11:00 PM",
-    "11:30 PM",
-  ];
-  let categories = [
-    "Accessory",
-    "Bag",
-    "Book & Stationery",
-    "Certificate",
-    "Clothes",
-    "Electronic Product",
-    "People",
-    "Pet",
-    "Valuables",
-    "Others",
-  ];
-  let districts = [
-    "Central and Western",
-    "Eastern",
-    "Islands",
-    "Kowloon City",
-    "Kwai Tsing",
-    "Kwun Tong",
-    "North",
-    "Sai Kung",
-    "Sha Tin",
-    "Sham Shui Po",
-    "Southern",
-    "Tai Po",
-    "Tsuen Wan",
-    "Tuen Mun",
-    "Wan Chai",
-    "Wong Tai Sin",
-    "Yau Tsim Mong",
-    "Yuen Long",
-  ];
+
   const renderData = (post = {}) => {
     if (!!post && !!post.contact) {
       setItemName(post.itemName);
@@ -159,7 +161,6 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
       setIsLoading(true);
       let postId = location.pathname.split("/").pop();
       const data = await getOnePost(postId);
-      console.log(data);
       setCurrentPost(data);
       renderData(data);
       setIsLoading(false);
@@ -208,7 +209,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
             case "running":
               break;
             default:
-              console.log("fine");
+            // console.log("fine");
           }
         },
         (error) => {
@@ -261,7 +262,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
         reward: reward,
       };
 
-      console.log(newPost);
+      // console.log(newPost);
 
       let res = await updatePost(currentPost.id, newPost);
       alert("Your item is updated successfully");
@@ -273,7 +274,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
     const form = e.currentTarget;
     e.preventDefault();
     if (form.checkValidity() === false) {
-      console.log("run");
+      // console.log("run");
 
       e.preventDefault();
       e.stopPropagation();
@@ -281,7 +282,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
 
     setValidated(true);
 
-    console.log(markerLatLng.lat, markerLatLng.lng, document.getElementById("marker_address").value);
+    // console.log(markerLatLng.lat, markerLatLng.lng, document.getElementById("marker_address").value);
 
     if (form.checkValidity() === true) {
       let newPost = {
@@ -307,7 +308,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
         reward: reward,
       };
 
-      console.log(newPost);
+      // console.log(newPost);
 
       let res = await addPost(newPost);
       alert("Your item is posted successfully");
@@ -507,7 +508,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                   required
                   value={reward}
                   onChange={(e) => setReward(e.target.value)}
-                  pattern="^[0-9]*$"
+                  pattern="^(0|[1-9][0-9]*)$"
                 ></Form.Control>
                 {/* <Form.Control.Feedback type="invalid">Please input number only.</Form.Control.Feedback>  */}
               </div>{" "}
