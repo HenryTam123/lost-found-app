@@ -221,7 +221,9 @@ const Chatroom = ({ props }) => {
                           <div style={{ marginTop: "10px" }}>
                             {chatroom.messages.length !== 0 && (
                               <div className="custom-sameline-text">
-                                {chatroom.messages[chatroom.messages.length - 1].message}
+                                {!!chatroom.messages[chatroom.messages.length - 1].image
+                                  ? "[photo]"
+                                  : chatroom.messages[chatroom.messages.length - 1].message}
                                 <div className="text-muted" style={{ fontSize: "13px", marginLeft: "" }}>
                                   <Moment fromNow ago>
                                     {chatroom.updatedAt}
@@ -248,7 +250,9 @@ const Chatroom = ({ props }) => {
                           <div style={{ marginTop: "10px" }}>
                             {chatroom.messages.length !== 0 && (
                               <div className="custom-sameline-text">
-                                {chatroom.messages[chatroom.messages.length - 1].message}
+                                {!!chatroom.messages[chatroom.messages.length - 1].image
+                                  ? "[photo]"
+                                  : chatroom.messages[chatroom.messages.length - 1].message}
                                 <div className="text-muted" style={{ fontSize: "13px", marginLeft: "" }}>
                                   <Moment fromNow ago>
                                     {chatroom.updatedAt}
