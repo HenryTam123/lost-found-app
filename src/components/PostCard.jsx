@@ -20,7 +20,7 @@ import {
 import MyMap from "./MyMap.jsx";
 import markerLogo from "../images/marker.png";
 
-const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
+const PostCard = ({ post = {}, isDetailMode = false, currentUser = {}, isProfileMode = false }) => {
   const [show, setShow] = useState(false);
   const [showMap, setShowMap] = useState(false);
 
@@ -194,7 +194,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {} }) => {
           </Card>
         </Col>
       ) : (
-        <Col lg={3} md={4} sm={6}>
+        <Col lg={isProfileMode ? 6 : 3} md={isProfileMode ? 6 : 4} sm={isProfileMode ? 12 : 6}>
           <Card className="shadow cursor-pointer custom-hover-effect w-100 my-3">
             {post.imageUrls.length > 0 ? (
               <Carousel variant="dark" interval={null}>

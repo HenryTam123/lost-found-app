@@ -137,7 +137,7 @@ const Posts = () => {
               <Form.Control
                 type="text"
                 className="border-none"
-                placeholder="Search location, description orname of item"
+                placeholder="Search location, description or name of item"
                 value={textQuery}
                 onChange={(e) => setTextQuery(e.target.value)}
               />{" "}

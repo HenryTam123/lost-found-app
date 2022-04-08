@@ -427,13 +427,13 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
 
             <Form.Group id="contact" className="mb-3">
               <Form.Label>
-                <LocalPhoneOutlinedIcon /> Contact Method <span className="text-muted">&#40;required&#41;</span>
+                <LocalPhoneOutlinedIcon /> Contact Method <span className="text-muted">&#40;optional&#41;</span>
               </Form.Label>
               <Form.Check type={"checkbox"} required>
                 <Form.Check.Input
                   checked={isPhoneSelected}
                   type={"checkbox"}
-                  required
+                  // required
                   onChange={(e) => setIsPhoneSelected(e.target.checked)}
                 />
                 <Form.Check.Label>{`Phone number`}</Form.Check.Label>
@@ -442,7 +442,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                     <Form.Control
                       type="text"
                       placeholder="E.g. 9876 5432"
-                      required
+                      // required
                       pattern="^[0-9]+$"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
