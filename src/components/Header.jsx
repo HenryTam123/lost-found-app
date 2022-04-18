@@ -50,7 +50,7 @@ const Header = () => {
                 </Nav.Link>
               </Nav>
             ) : (
-              <Nav className="ml-auto">
+              <Nav className="ml-auto text-center">
                 {/* <Nav.Link href="./signup">Sign Up</Nav.Link> */}
 
                 <Nav.Link href="/login">Log In</Nav.Link>
