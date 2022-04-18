@@ -16,6 +16,7 @@ import Profile from './components/Profile';
 import Logout from './components/Logout';
 import PageNotFound from './components/PageNotFound';
 import CustomToast from './components/CustomToast';
+import Support from './components/Support'
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/edit-form/:pid" element={<EditForm />} />
                 <Route path="/chatroom" element={<Chatroom />} />
                 <Route path="/profile/:id" element={<Profile />} />
+                <Route path="/support-us" element={<Support />} />
                 <Route path="*" element={<PageNotFound />} />
 
               </Routes>

@@ -31,6 +31,7 @@ const Header = () => {
                   <Nav.Link href="/post-form">List your item</Nav.Link>
                   <Nav.Link href="/your-listing">Your Posts</Nav.Link>
                   <Nav.Link href="/chatroom">Inbox </Nav.Link>
+                  <Nav.Link href="/support-us">Support Us </Nav.Link>
                 </>
               )}
             </Nav>
