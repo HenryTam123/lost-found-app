@@ -11,12 +11,15 @@ import {
   Carousel,
   Spinner,
   Accordion,
+  Modal,
   InputGroup,
 } from "react-bootstrap";
 import Pagination from "react-bootstrap/Pagination";
 import { useNavigate } from "react-router-dom";
 import PostCard from "./PostCard.jsx";
 import SearchIcon from "@mui/icons-material/Search";
+import markerLogo from "../images/marker.png";
+import MyMap from "./MyMap.jsx";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -29,8 +32,10 @@ const Posts = () => {
   const [districtSelected, setDistrictSelected] = useState("All");
   const [sortingSelected, setSortingSelected] = useState("desc");
   const [statusSelected, setStatusSelected] = useState("All");
+  const [showMap, setShowMap] = useState(false);
   const navigate = useNavigate();
-
+  const handleCloseMap = () => setShowMap(false);
+  const handleShowMap = () => setShowMap(true);
   let categories = [
     "Accessory",
     "Bag",
@@ -123,13 +128,25 @@ const Posts = () => {
 
   return (
     <div style={{ paddingTop: "75px" }}>
-      <Container>
+      <Container className="d-flex justify-content-between align-items-center">
         <h4 className="mt-2 py-2 custom-label">Posts</h4>
+        <Button
+          className="border shadow-sm d-flex justify-content-center align-items-center"
+          style={{ backgroundColor: "white", color: "black" }}
+          onClick={() => setShowMap(true)}
+        >
+          <img src={markerLogo} alt="marker" height={20} />
+          <span style={{ marginLeft: "10px" }}>Google Map</span>
+        </Button>
       </Container>
-
+      <Modal show={showMap} onHide={handleCloseMap} size={"xl"}>
+        <Modal.Body closeButton>
+          <MyMap isViewAll={true} isViewOnlyMode={true} posts={posts} />
+        </Modal.Body>
+      </Modal>
       <Container className="container d-flex flex-wrap my-2 justify-content-center">
         <Row className="w-100">
-          <Form onSubmit={(e) => handleSearch(e)} style={{ padding: "0" }}>
+          <Form onSubmit={(e) => handleSearch(e)} style={{ padding: "4px" }}>
             <InputGroup className="mb-3">
               <InputGroup.Text id="search_label" className="bg-white border-none">
                 <SearchIcon />

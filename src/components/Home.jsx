@@ -39,7 +39,7 @@ const Home = () => {
           </Col>
         </Row>
         <Row className="py-5 px-1 mt-4" style={{ margin: "5px" }}>
-          <div className="text-center h1 mb-4">Features of our website</div>
+          <div className="text-center h1 mb-4 ">Features of our website</div>
           <Col xs={12} md={6} lg={4}>
             <Card className="text-center p-2 shadow border-radius">
               <Card.Title className="my-2">Lost Item Listing</Card.Title>

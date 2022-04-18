@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript, InfoWindow, InfoBox } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import CustomMarker from "./CustomMarker";
 import {
@@ -35,6 +35,8 @@ function MyMap({
   setMarkerLatLng,
   setMarkerAddress,
   isViewOnlyMode,
+  isViewAll = false,
+  posts = {},
   post = {},
 }) {
   //   const [markerLatLng, setMarkerLatLng] = useState([]);
@@ -63,6 +65,7 @@ function MyMap({
   }, []);
 
   // console.log(markerLatLng);
+  console.log(isViewAll);
 
   if (loadError) return "Error Loading maps";
   if (!isLoaded) return "Loading Maps";
@@ -70,7 +73,7 @@ function MyMap({
   return (
     <>
       {isViewOnlyMode ? (
-        <>
+        !isViewAll ? (
           <GoogleMap
             mapContainerStyle={bigContainerStyle}
             center={post && post.latlng}
@@ -80,7 +83,23 @@ function MyMap({
           >
             {post.latlng && <CustomMarker position={post.latlng} />}
           </GoogleMap>
-        </>
+        ) : (
+          <GoogleMap mapContainerStyle={bigContainerStyle} center={posts[0].latlng} zoom={16} onLoad={onMapLoad}>
+            {posts.map((post) => {
+              if (post.latlng) {
+                return (
+                  <>
+                    <CustomMarker position={post.latlng}></CustomMarker>
+                    <InfoWindow position={post.latlng} options={{ padding: "2px" }}>
+                      <img src={post.imageUrls[0]} alt="" height={50} />
+                    </InfoWindow>
+                  </>
+                );
+              }
+              return;
+            })}
+          </GoogleMap>
+        )
       ) : (
         <>
           <Search

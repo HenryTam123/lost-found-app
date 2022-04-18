@@ -223,6 +223,11 @@
   margin-right: 8px;
 }
 
+.custom-title{
+  border-bottom: 1px solid black;
+  width: 10px;
+}
+
 .custom-post-text-container {
   max-height: 150px;
   text-overflow: ellipsis;
