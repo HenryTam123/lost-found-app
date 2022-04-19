@@ -91,7 +91,9 @@ function MyMap({
                   <>
                     <CustomMarker position={post.latlng}></CustomMarker>
                     <InfoWindow position={post.latlng} options={{ padding: "2px" }}>
-                      <img src={post.imageUrls[0]} alt="" height={50} />
+                      <a href={`/post/${post.id}`}>
+                        <img src={post.imageUrls[0]} alt="" height={50} />
+                      </a>
                     </InfoWindow>
                   </>
                 );
