@@ -136,7 +136,7 @@ const Posts = () => {
           onClick={() => setShowMap(true)}
         >
           <img src={markerLogo} alt="marker" height={20} />
-          <span style={{ marginLeft: "10px" }}>Google Map</span>
+          <span style={{ marginLeft: "10px" }}>View All on Google Map</span>
         </Button>
       </Container>
       <Modal show={showMap} onHide={handleCloseMap} size={"xl"}>
