@@ -240,7 +240,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {}, isProfile
               </Card.Text>
               {post.lost_date && (
                 <Card.Text>
-                  <DateRangeOutlinedIcon /> Lost on{" "}
+                  <DateRangeOutlinedIcon /> {post.isLostItem ? "Lost on" : "Found on"}{" "}
                   <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ""}
                 </Card.Text>
               )}

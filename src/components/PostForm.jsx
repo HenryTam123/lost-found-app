@@ -10,7 +10,6 @@ const PostForm = () => {
   const navigate = useNavigate();
   return (
     <div style={{ paddingTop: "75px" }}>
-      <h4 className="py-2 custom-label mt-3">List your lost item on our website</h4>
       {!!currentUser ? <OriginalForm isUpdateMode={false} /> : <Button onClick={navigate("/login")}>Login</Button>}
     </div>
   );

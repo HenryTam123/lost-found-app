@@ -14,7 +14,7 @@ const Home = () => {
   const { currentUser } = useAuth();
 
   const handleStart = () => {
-    navigate("./posts");
+    navigate("./items-found");
   };
 
   useEffect(() => {

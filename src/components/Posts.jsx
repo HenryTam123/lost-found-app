@@ -15,7 +15,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import Pagination from "react-bootstrap/Pagination";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import PostCard from "./PostCard.jsx";
 import SearchIcon from "@mui/icons-material/Search";
 import markerLogo from "../images/marker.png";
@@ -36,6 +36,10 @@ const Posts = () => {
   const navigate = useNavigate();
   const handleCloseMap = () => setShowMap(false);
   const handleShowMap = () => setShowMap(true);
+  const location = useLocation();
+
+  let isItemLostPage = location.pathname.split("/").pop() === "items-lost";
+
   let categories = [
     "Accessory",
     "Bag",
@@ -117,7 +121,8 @@ const Posts = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const data = await getPosts(filters);
+      console.log(isItemLostPage);
+      const data = await getPosts(filters, isItemLostPage);
       setPosts(data);
       setTotalDocs(data[0].totalDocs);
       setIsLoading(false);
@@ -129,7 +134,7 @@ const Posts = () => {
   return (
     <div style={{ paddingTop: "75px" }}>
       <Container className="d-flex justify-content-between align-items-center">
-        <h4 className="mt-2 py-2 custom-label">Posts</h4>
+        <h4 className="mt-2 py-2 custom-label">{isItemLostPage ? "Items Lost" : "Items Found"}</h4>
         <Button
           className="border shadow-sm d-flex justify-content-center align-items-center"
           style={{ backgroundColor: "white", color: "black" }}
@@ -180,20 +185,6 @@ const Posts = () => {
                       })}
                     </Form.Select>
                   </Form.Group>
-                  {/* <Form.Group id="item_districts" className="flex-1 mt-2 " style={{ marginRight: "10px" }}>
-                    <Form.Label className=" ">District</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      value={districtSelected}
-                      onChange={(e) => setDistrictSelected(e.target.value)}
-                    >
-                      <option value={"All"}>All</option>
-
-                      {districts.map((district, i) => {
-                        return <option key={i}>{district}</option>;
-                      })}
-                    </Form.Select>
-                  </Form.Group> */}
                   <Form.Group id="item_status " className="flex-1  mt-2" style={{ marginRight: "10px" }}>
                     <Form.Label className=" ">Status</Form.Label>
                     <Form.Select

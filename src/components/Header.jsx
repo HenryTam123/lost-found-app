@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import logo from "../images/logo.jpeg";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +25,16 @@ const Header = () => {
             <Nav className="me-auto text-center">
               <Nav.Link href="/">Home</Nav.Link>
               {/* <Nav.Link href="#features">Features</Nav.Link> */}
-              <Nav.Link href="/posts">Posts</Nav.Link>
+              {/* <Nav.Link href="/posts">Posts</Nav.Link> */}
+
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                  <NavDropdown title="Posts" id="posts-dropdown">
+                    <NavDropdown.Item href="/items-lost">Item Lost</NavDropdown.Item>
+                    <NavDropdown.Item href="/items-found">Item Found</NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              </Navbar.Collapse>
               {!!currentUser && (
                 <>
                   <Nav.Link href="/post-form">List your item</Nav.Link>

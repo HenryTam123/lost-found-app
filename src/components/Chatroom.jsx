@@ -190,7 +190,9 @@ const Chatroom = ({ props }) => {
   return (
     <div style={{ paddingTop: "75px" }}>
       <Container>
-        <h4 className="py-2 custom-label">Your Inbox</h4>
+        <h4 className="py-2 custom-label" style={{ marginTop: "30px" }}>
+          Your Inbox
+        </h4>
       </Container>
       {!!currentUser && chatrooms.length !== 0 ? (
         <div className="custom-chat-container my-3 shadow">
