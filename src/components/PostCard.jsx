@@ -48,6 +48,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {}, isProfile
 
   const handleInbox = async (postId) => {
     await createChatroom(postId, currentUser);
+
     navigate(`/chatroom`, {
       state: { postId: postId, creatorEmail: post.creatorEmail, viewerEmail: currentUser.email },
     });
@@ -132,7 +133,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {}, isProfile
                 {post.lostPlace ? post.lostPlace : "none"}
               </Card.Text>
               <Card.Title>
-                <DateRangeOutlinedIcon /> Date of Loss
+                <DateRangeOutlinedIcon /> Date of {post.isLostItem ? "lost" : "found"}
               </Card.Title>
               <Card.Text>
                 <Moment format="YYYY/MM/DD">{post["lost_date"].seconds * 1000}</Moment> {post.lostTime || ""}

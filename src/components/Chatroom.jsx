@@ -66,7 +66,7 @@ const Chatroom = ({ props }) => {
     setShowLeft(false);
   };
 
-  console.log(currentChatroom, currentUser);
+  // console.log(currentChatroom, currentUser);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

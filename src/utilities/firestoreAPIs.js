@@ -219,6 +219,8 @@ export const createUser = async (userDoc) => {
           uid: email.split("@")[0],
           joinedAt: new Date().getTime(),
         });
+      } else {
+        await setDoc(doc(db, "users", data[0].id), { photoURL: data[0].photoURL }, { merge: true });
       }
       return docRef;
     }
@@ -231,6 +233,8 @@ export const createChatroom = async (postId, userDoc) => {
   try {
     let post = await getOnePost(postId);
 
+    console.log(userDoc);
+
     let q = query(
       collection(db, "chatrooms"),
       where("postCreatorEmail", "==", post.creatorEmail),
@@ -238,11 +242,14 @@ export const createChatroom = async (postId, userDoc) => {
       where("postId", "==", postId)
     );
 
+    console.log(postId, userDoc);
+
     let chatroomDoc = await getDocs(q);
     let data = chatroomDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
     // if there is no existing chat between creator and viewer for a specific post, create one
     if (data.length === 0) {
+      console.log("run");
       const docRef = await addDoc(collection(db, "chatrooms"), {
         createdAt: new Date().getTime(),
         updatedAt: new Date().getTime(),
@@ -251,7 +258,7 @@ export const createChatroom = async (postId, userDoc) => {
         postThumb: post.imageUrls[0],
         postCreatorEmail: post.creatorEmail,
         postCreator: post.creator,
-        postCreatorPhoto: post.creatorPhoto,
+        postCreatorPhoto: post.creatorPhoto || null,
         postViewer: userDoc.displayName,
         postViewerEmail: userDoc.email,
         postViewPhoto: userDoc.photoURL,

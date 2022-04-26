@@ -247,8 +247,10 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
       let newPost = {
         creator: currentUser.displayName,
         creatorEmail: currentUser.email,
+        creatorPhoto: currentUser.photoUrl,
         itemName: itemName,
         description: description,
+
         imageUrls: urls,
         contact: {
           email: email,
@@ -295,6 +297,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
       let newPost = {
         creator: currentUser.displayName,
         creatorEmail: currentUser.email,
+        creatorPhoto: currentUser.photoUrl,
         itemName: itemName,
         description: description,
         imageUrls: urls,
@@ -355,7 +358,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                 <HelpOutlineIcon /> What item are u posting?
                 <span className="text-muted">&#40;required&#41;</span>
               </Form.Label>
-              <div className="d-flex">
+              {/* <div className="d-flex">
                 <div className="mr-3" style={{ marginRight: "10px" }}>
                   Item Lost
                 </div>
@@ -367,7 +370,20 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                   onChange={(e) => setIsPostingLostItem(e.target.checked)}
                   className="mb-3"
                 />
-              </div>
+              </div> */}
+              <Form.Select
+                aria-label="select what item is postin"
+                className="mb-3"
+                // value={isPostingLostItem}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setIsPostingLostItem(e.target.value === "true" ? true : false);
+                }}
+                required
+              >
+                <option value={true}>Posting Item Lost</option>
+                <option value={false}>Posting Item Found</option>
+              </Form.Select>
 
               <Form.Group id="item_name" className="mb-3">
                 <Form.Label>
@@ -482,7 +498,6 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                       <Form.Control
                         type="email"
                         placeholder="E.g. jason123@gmail.com"
-                        required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}"
