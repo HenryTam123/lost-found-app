@@ -85,7 +85,7 @@ export const getPosts = async (filters = {}, isGettingLostItem = true) => {
   }
 
   const res = await getDocs(q1);
-  console.log(res.docs);
+  // console.log(res.docs);
   const totalDocs = res.size;
   let data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id, totalDocs: totalDocs }));
   if (!isGettingLostItem) {

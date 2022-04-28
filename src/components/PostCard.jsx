@@ -38,7 +38,7 @@ const PostCard = ({ post = {}, isDetailMode = false, currentUser = {}, isProfile
       await deletePost(post.id);
       setIsLoading(false);
       alert("Your post is deleted Successfully");
-      navigate("/posts");
+      navigate("/items-lost");
     }
   };
 

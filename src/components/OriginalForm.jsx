@@ -296,14 +296,14 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
     if (form.checkValidity() === true) {
       let newPost = {
         creator: currentUser.displayName,
-        creatorEmail: currentUser.email,
-        creatorPhoto: currentUser.photoUrl,
+        creatorEmail: currentUser.email || "",
+        creatorPhoto: currentUser.photoUrl || "",
         itemName: itemName,
         description: description,
         imageUrls: urls,
         contact: {
-          email: email,
-          phone: phone,
+          email: email || "",
+          phone: phone || "",
         },
         latlng: {
           lat: markerLatLng.lat,
@@ -315,7 +315,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
         status: statusSelected,
         category: categorySelected,
         lost_date: date,
-        organisation: itemOrganisation,
+        organisation: itemOrganisation || "",
         reward: reward,
         isLostItem: isPostingLostItem,
       };
@@ -324,7 +324,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
 
       let res = await addPost(newPost);
       alert("Your item is posted successfully");
-      navigate("/posts");
+      navigate("/items-lost");
     }
   };
   return (
@@ -488,7 +488,7 @@ const OriginalForm = ({ post = {}, isUpdateMode = false }) => {
                 <Form.Check type={"checkbox"}>
                   <Form.Check.Input
                     checked={isEmailSelected}
-                    required
+                    // required
                     type={"checkbox"}
                     onChange={(e) => setIsEmailSelected(e.target.checked)}
                   />

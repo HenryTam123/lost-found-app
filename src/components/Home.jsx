@@ -14,7 +14,7 @@ const Home = () => {
   const { currentUser } = useAuth();
 
   const handleStart = () => {
-    navigate("./items-found");
+    navigate("./items-lost");
   };
 
   useEffect(() => {
